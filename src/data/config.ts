@@ -21,7 +21,7 @@ export const CONFIG: Config = {
     "https://chrome.google.com/webstore/detail/bkbmplkfckpkjkjkmeipomiklhdbfobo",
   SUPPORT_EMAIL: "business.technicalaajtak@gmail.com",
   PRIVACY_EMAIL: "business.technicalaajtak@gmail.com",
-  SITE_URL: "https://profivault.app",
+  SITE_URL: "https://profivaultweb.vercel.app",
   GITHUB_URL: "https://github.com/profivault",
   LINKEDIN_URL: "https://linkedin.com/company/profivault",
   VERSION: "1.0.0",
