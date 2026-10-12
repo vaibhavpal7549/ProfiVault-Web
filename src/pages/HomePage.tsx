@@ -41,7 +41,7 @@ export const HomePage: React.FC<HomePageProps> = ({ onCopySuccess, onNavigate })
       <UseCasesSection />
       <ProductDemoSection onCopySuccess={onCopySuccess} />
       <BeforeAfterSection />
-      <PrivacyTrustSection onReadPrivacyClick={() => onNavigate('/privacy')} />
+      <PrivacyTrustSection onReadPrivacyClick={() => onNavigate('/privacy-policy')} />
       <PermissionsSection />
       <InstallationGuideSection />
       <FAQSection />

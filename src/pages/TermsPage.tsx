@@ -70,7 +70,21 @@ export const TermsPage: React.FC<TermsPageProps> = ({ onNavigate }) => {
           </section>
 
           <section className="p-6 rounded-2xl bg-slate-900/60 border border-slate-800 space-y-2">
-            <h2 className="text-lg font-bold text-white">5. Contact</h2>
+            <h2 className="text-lg font-bold text-white">5. Privacy & Data Protection</h2>
+            <p>
+              Your privacy is of utmost importance to us. Our data handling practices for both this website and the ProfiVault Chrome extension are set forth in our dedicated{' '}
+              <button
+                onClick={() => onNavigate('/privacy-policy')}
+                className="text-blue-400 hover:underline font-medium cursor-pointer"
+              >
+                Privacy Policy
+              </button>
+              . By using the Service, you acknowledge and agree to the data collection and processing terms described therein.
+            </p>
+          </section>
+
+          <section className="p-6 rounded-2xl bg-slate-900/60 border border-slate-800 space-y-2">
+            <h2 className="text-lg font-bold text-white">6. Contact</h2>
             <p>
               For questions regarding these terms, contact us at <span className="text-blue-400 font-mono">{CONFIG.SUPPORT_EMAIL}</span>.
             </p>

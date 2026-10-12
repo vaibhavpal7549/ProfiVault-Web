@@ -42,7 +42,7 @@ export const SupportPage: React.FC<SupportPageProps> = ({ onNavigate }) => {
       } else {
         setErrorMessage(data.message || 'Something went wrong. Please try again or email us directly.');
       }
-    } catch (err) {
+    } catch {
       setErrorMessage('Failed to send message. Please check your internet connection or email us directly.');
     } finally {
       setIsSubmitting(false);
@@ -190,20 +190,34 @@ export const SupportPage: React.FC<SupportPageProps> = ({ onNavigate }) => {
                 />
               </div>
 
-              <button
-                type="submit"
-                disabled={isSubmitting}
-                className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-blue-600 hover:bg-blue-500 disabled:bg-blue-800 disabled:cursor-not-allowed text-white font-semibold text-xs shadow-lg transition cursor-pointer"
-              >
-                {isSubmitting ? (
-                  <>
-                    <Loader2 className="w-4 h-4 animate-spin" />
-                    <span>Sending Message...</span>
-                  </>
-                ) : (
-                  <span>Send Support Message</span>
-                )}
-              </button>
+              <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 pt-2">
+                <button
+                  type="submit"
+                  disabled={isSubmitting}
+                  className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-blue-600 hover:bg-blue-500 disabled:bg-blue-800 disabled:cursor-not-allowed text-white font-semibold text-xs shadow-lg transition cursor-pointer"
+                >
+                  {isSubmitting ? (
+                    <>
+                      <Loader2 className="w-4 h-4 animate-spin" />
+                      <span>Sending Message...</span>
+                    </>
+                  ) : (
+                    <span>Send Support Message</span>
+                  )}
+                </button>
+
+                <p className="text-[11px] text-slate-500">
+                  Protected by our{' '}
+                  <button
+                    type="button"
+                    onClick={() => onNavigate('/privacy-policy')}
+                    className="text-blue-400 hover:underline cursor-pointer"
+                  >
+                    Privacy Policy
+                  </button>
+                  . We never share your email.
+                </p>
+              </div>
             </form>
           )}
         </div>
