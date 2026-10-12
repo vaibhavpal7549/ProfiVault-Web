@@ -6,6 +6,11 @@ interface AboutPageProps {
 }
 
 export const AboutPage: React.FC<AboutPageProps> = ({ onNavigate }) => {
+  React.useEffect(() => {
+    window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+    document.documentElement.scrollTop = 0;
+    document.body.scrollTop = 0;
+  }, []);
   return (
     <div className="py-12 bg-slate-950 text-slate-200 min-h-screen font-sans">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">

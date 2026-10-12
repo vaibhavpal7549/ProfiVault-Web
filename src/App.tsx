@@ -13,17 +13,35 @@ export function App() {
   const [toastMessage, setToastMessage] = useState<string | null>(null);
 
   useEffect(() => {
+    if ('scrollRestoration' in window.history) {
+      window.history.scrollRestoration = 'manual';
+    }
+
     const handlePopState = () => {
       setCurrentPath(window.location.pathname);
+      window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+      document.documentElement.scrollTop = 0;
+      document.body.scrollTop = 0;
     };
     window.addEventListener('popstate', handlePopState);
     return () => window.removeEventListener('popstate', handlePopState);
   }, []);
 
+  useEffect(() => {
+    window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+    document.documentElement.scrollTop = 0;
+    document.body.scrollTop = 0;
+  }, [currentPath]);
+
   const handleNavigate = (path: string) => {
     if (window.location.pathname !== path) {
       window.history.pushState({}, '', path);
       setCurrentPath(path);
+      window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+      document.documentElement.scrollTop = 0;
+      document.body.scrollTop = 0;
+    } else {
+      window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
     }
   };
 

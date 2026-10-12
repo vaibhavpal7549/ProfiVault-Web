@@ -93,6 +93,20 @@ export const PrivacyPage: React.FC<PrivacyPageProps> = ({ onNavigate }) => {
     { id: 'section-15', title: '15. Developer Contact Info' },
   ];
 
+  const handleReturnHome = () => {
+    window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+    document.documentElement.scrollTop = 0;
+    document.body.scrollTop = 0;
+    onNavigate('/');
+  };
+
+  const handleVisitSupport = () => {
+    window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+    document.documentElement.scrollTop = 0;
+    document.body.scrollTop = 0;
+    onNavigate('/support');
+  };
+
   return (
     <div className="py-12 bg-slate-950 text-slate-200 min-h-screen font-sans">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
@@ -100,7 +114,7 @@ export const PrivacyPage: React.FC<PrivacyPageProps> = ({ onNavigate }) => {
         {/* Navigation Breadcrumb / Back Link */}
         <div className="flex items-center justify-between">
           <button
-            onClick={() => onNavigate('/')}
+            onClick={handleReturnHome}
             className="inline-flex items-center gap-2 text-xs font-semibold text-blue-400 hover:text-blue-300 transition cursor-pointer group"
           >
             <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
@@ -881,7 +895,7 @@ export const PrivacyPage: React.FC<PrivacyPageProps> = ({ onNavigate }) => {
 
               <div className="pt-2 flex flex-wrap items-center gap-4">
                 <button
-                  onClick={() => onNavigate('/support')}
+                  onClick={handleVisitSupport}
                   className="px-5 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-semibold text-xs sm:text-sm transition cursor-pointer shadow-lg shadow-blue-600/25 flex items-center gap-2"
                 >
                   <HelpCircle className="w-4 h-4" />
@@ -889,7 +903,7 @@ export const PrivacyPage: React.FC<PrivacyPageProps> = ({ onNavigate }) => {
                 </button>
 
                 <button
-                  onClick={() => onNavigate('/')}
+                  onClick={handleReturnHome}
                   className="px-5 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-slate-200 font-semibold text-xs sm:text-sm transition cursor-pointer border border-slate-800"
                 >
                   Return to Home

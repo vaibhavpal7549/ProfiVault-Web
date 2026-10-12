@@ -22,7 +22,9 @@ export const Navbar: React.FC<NavbarProps> = ({ currentPath, onNavigate }) => {
           }
         }, 100);
       } else {
-        window.scrollTo({ top: 0, behavior: 'smooth' });
+        window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+        document.documentElement.scrollTop = 0;
+        document.body.scrollTop = 0;
       }
     } else if (sectionId) {
       const element = document.getElementById(sectionId);

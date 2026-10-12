@@ -14,6 +14,12 @@ export const SupportPage: React.FC<SupportPageProps> = ({ onNavigate }) => {
   const [subject, setSubject] = useState('');
   const [message, setMessage] = useState('');
 
+  React.useEffect(() => {
+    window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+    document.documentElement.scrollTop = 0;
+    document.body.scrollTop = 0;
+  }, []);
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
