@@ -42,7 +42,7 @@ export const SupportPage: React.FC<SupportPageProps> = ({ onNavigate }) => {
       } else {
         setErrorMessage(data.message || 'Something went wrong. Please try again or email us directly.');
       }
-    } catch {
+    } catch (err) {
       setErrorMessage('Failed to send message. Please check your internet connection or email us directly.');
     } finally {
       setIsSubmitting(false);

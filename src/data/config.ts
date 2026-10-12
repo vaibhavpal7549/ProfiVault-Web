@@ -110,7 +110,7 @@ export const FAQ_DATA: FAQItem[] = [
     id: "faq-11",
     question: "What permissions does ProfiVault use?",
     answer:
-      "ProfiVault requests only 3 permissions in its Manifest V3 specification: `storage` (for offline local link and preferences persistence), `clipboardWrite` (to write selected URLs to your system clipboard upon explicit user click), and `identity` (for optional Google OAuth sign-in and cross-device sync). It does NOT request `activeTab`, browsing history, webRequest, or any broad web host permissions.",
+      "ProfiVault uses 4 manifest permissions: `storage` (local data persistence), `clipboardWrite` (to copy URLs to clipboard), `identity` (optional Google OAuth authentication), and `activeTab` (browser tab interaction).",
     category: "privacy",
   },
   {
@@ -231,16 +231,21 @@ export const PERMISSIONS_DATA: PermissionDetail[] = [
   {
     name: "Storage Permission",
     permissionKey: "storage",
-    purpose: "Used to save your ProfiVault profile links, categories, theme options, and extension preferences locally in Chrome extension storage (chrome.storage.local).",
+    purpose: "Used to save your ProfiVault profile links, categories, theme options, and extension settings in Chrome local storage.",
   },
   {
     name: "Clipboard Permission",
     permissionKey: "clipboardWrite",
-    purpose: "Used strictly when you click 'Copy' on a saved profile link or Quick Copy chip to write that specific URL to your system clipboard. Never reads clipboard content.",
+    purpose: "Used exclusively when you click 'Copy' on a saved link to copy the URL to your system clipboard.",
   },
   {
     name: "Identity Permission",
     permissionKey: "identity",
-    purpose: "Used exclusively for optional Google account OAuth authentication via Chrome Identity API when you choose to enable cross-device cloud synchronization.",
+    purpose: "Used for Google account OAuth authentication via Chrome Identity API when Google Sign-In is enabled.",
+  },
+  {
+    name: "Active Tab Permission",
+    permissionKey: "activeTab",
+    purpose: "Declared in extension manifest for interacting with active tab context when invoked.",
   },
 ];

@@ -6,8 +6,6 @@ interface FooterProps {
   onNavigate: (path: string) => void;
 }
 
-const CURRENT_YEAR = new Date().getFullYear();
-
 export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
   const handleLinkClick = (path: string, sectionId?: string) => {
     onNavigate(path);
@@ -194,7 +192,7 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
         {/* Bottom copyright notice */}
         <div className="pt-8 flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-slate-500">
           <div>
-            &copy; {CURRENT_YEAR} {CONFIG.PRODUCT_NAME}. All rights reserved.
+            &copy; {new Date().getFullYear()} {CONFIG.PRODUCT_NAME}. All rights reserved.
           </div>
           <div className="flex items-center gap-4 text-slate-500">
             <span>Chrome Web Store is a trademark of Google LLC.</span>
