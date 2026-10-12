@@ -1,25 +1,27 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { CONFIG } from '../data/config';
 import {
   ShieldCheck,
   Mail,
   ArrowLeft,
-  Lock,
-  Database,
-  Key,
-  Copy,
-  Trash2,
-  EyeOff,
-  UserCheck,
-  CheckCircle2,
-  ExternalLink,
-  Clock,
-  Server,
-  Download,
   HardDrive,
+  Lock,
+  Server,
+  Globe,
   FileText,
+  Database,
+  Cookie,
+  ExternalLink,
+  CheckCircle2,
+  Clock,
+  UserCheck,
+  Copy,
+  Check,
+  EyeOff,
+  Layers,
+  HelpCircle,
+  Cpu,
   ChevronRight,
-  Sparkles,
 } from 'lucide-react';
 
 interface PrivacyPageProps {
@@ -27,44 +29,51 @@ interface PrivacyPageProps {
 }
 
 export const PrivacyPage: React.FC<PrivacyPageProps> = ({ onNavigate }) => {
+  const [copiedEmail, setCopiedEmail] = useState(false);
   const [activeSection, setActiveSection] = useState<string>('intro');
 
   useEffect(() => {
-    document.title = 'Privacy Policy – ProfiVault Chrome Extension';
+    // Set document title for privacy policy route
+    document.title = 'Privacy Policy – ProfiVault';
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }, []);
+
+  const handleCopyEmail = (email: string) => {
+    navigator.clipboard.writeText(email);
+    setCopiedEmail(true);
+    setTimeout(() => setCopiedEmail(false), 2000);
+  };
 
   const scrollToSection = (id: string) => {
     setActiveSection(id);
     const element = document.getElementById(id);
     if (element) {
-      const yOffset = -90;
-      const y = element.getBoundingClientRect().top + window.pageYOffset + yOffset;
-      window.scrollTo({ top: y, behavior: 'smooth' });
+      element.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
   };
 
-  const sections = [
-    { id: 'intro', label: '1. Introduction & Scope' },
-    { id: 'data-collected', label: '2. Information Accessed & Collected' },
-    { id: 'purpose', label: '3. Purpose of Processing' },
-    { id: 'handling', label: '4. How Data is Handled & Processed' },
-    { id: 'storage', label: '5. Local vs Cloud Storage' },
-    { id: 'google-oauth', label: '6. Google Sign-In & OAuth' },
-    { id: 'clipboard', label: '7. Clipboard Write Behavior' },
-    { id: 'sharing', label: '8. Data Sharing & Third Parties' },
-    { id: 'external-apis', label: '9. External Services & APIs' },
-    { id: 'retention', label: '10. Retention & Deletion' },
-    { id: 'security', label: '11. Data Security & Encryption' },
-    { id: 'user-choices', label: '12. User Choices & Controls' },
-    { id: 'children', label: '13. Children’s Privacy' },
-    { id: 'changes', label: '14. Policy Updates' },
-    { id: 'contact', label: '15. Developer Contact Info' },
+  const tableOfContents = [
+    { id: 'intro', title: '1. Introduction & Scope' },
+    { id: 'data-collected', title: '2. Information We Collect & Access' },
+    { id: 'how-we-use', title: '3. How & Why We Use Information' },
+    { id: 'storage-architecture', title: '4. Data Storage & Infrastructure' },
+    { id: 'auth-accounts', title: '5. Authentication & Accounts' },
+    { id: 'cookies-storage', title: '6. Cookies & Browser Storage' },
+    { id: 'third-parties', title: '7. Third-Party Services' },
+    { id: 'data-sharing', title: '8. Data Sharing & Disclosure' },
+    { id: 'retention', title: '9. Data Retention Practices' },
+    { id: 'user-rights', title: '10. Access, Correction & Deletion' },
+    { id: 'security', title: '11. Security Practices' },
+    { id: 'children', title: "12. Children's Privacy" },
+    { id: 'transfers', title: '13. International Transfers' },
+    { id: 'regulatory', title: '14. DNT & Regulatory Rights' },
+    { id: 'updates', title: '15. Policy Changes & Updates' },
+    { id: 'contact', title: '16. Contact Information' },
   ];
 
   return (
-    <div className="py-10 bg-slate-950 text-slate-200 min-h-screen font-sans selection:bg-blue-600 selection:text-white">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
+    <div className="py-12 bg-slate-950 text-slate-200 min-h-screen font-sans">
+      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
         
         {/* Navigation Breadcrumb / Back Link */}
         <div className="flex items-center justify-between">
@@ -72,800 +81,898 @@ export const PrivacyPage: React.FC<PrivacyPageProps> = ({ onNavigate }) => {
             onClick={() => onNavigate('/')}
             className="inline-flex items-center gap-2 text-xs font-semibold text-blue-400 hover:text-blue-300 transition cursor-pointer group"
           >
-            <ArrowLeft className="w-4 h-4 group-hover:-translate-x-0.5 transition-transform" />
+            <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
             <span>Back to ProfiVault Home</span>
           </button>
 
-          <a
-            href={CONFIG.CHROME_WEB_STORE_URL}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-1.5 text-xs font-semibold text-slate-400 hover:text-white transition"
-          >
-            <span>Chrome Web Store Listing</span>
-            <ExternalLink className="w-3.5 h-3.5" />
-          </a>
+          <span className="text-[11px] font-mono text-slate-500 bg-slate-900 px-2.5 py-1 rounded-md border border-slate-800">
+            Route: /privacy-policy
+          </span>
         </div>
 
         {/* Hero Header */}
-        <div className="relative overflow-hidden rounded-3xl bg-gradient-to-b from-slate-900 via-slate-900/80 to-slate-950 border border-slate-800 p-8 sm:p-12 shadow-2xl">
-          <div className="absolute top-0 right-0 -mr-20 -mt-20 w-80 h-80 rounded-full bg-blue-500/10 blur-3xl pointer-events-none" />
-          <div className="absolute bottom-0 left-0 -ml-20 -mb-20 w-80 h-80 rounded-full bg-indigo-500/10 blur-3xl pointer-events-none" />
+        <div className="space-y-4 border-b border-slate-800/80 pb-8">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-500/10 text-blue-400 text-xs font-semibold uppercase tracking-wider border border-blue-500/20">
+            <ShieldCheck className="w-4 h-4 text-blue-400" />
+            <span>Official Legal & Privacy Documentation</span>
+          </div>
 
-          <div className="relative z-10 max-w-3xl space-y-4">
-            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-400 text-xs font-semibold uppercase tracking-wider">
-              <ShieldCheck className="w-4 h-4 text-blue-400" />
-              <span>Official Privacy Policy</span>
-            </div>
+          <h1 className="text-3xl sm:text-5xl font-extrabold text-white tracking-tight leading-tight">
+            ProfiVault Privacy Policy
+          </h1>
 
-            <h1 className="text-3xl sm:text-5xl font-extrabold text-white tracking-tight leading-tight">
-              ProfiVault Privacy Policy
-            </h1>
+          <p className="text-sm sm:text-base text-slate-400 max-w-3xl leading-relaxed">
+            This policy transparently explains our data practices for the ProfiVault website 
+            (<span className="text-blue-400 font-mono text-xs">{CONFIG.SITE_URL}</span>) and serves as the official privacy statement for the ProfiVault product suite.
+          </p>
 
-            <p className="text-sm sm:text-base text-slate-300 leading-relaxed font-normal">
-              Transparent disclosure of data practices for{' '}
-              <strong className="text-white">ProfiVault – Fast Profile Link Copier</strong> (Chrome Extension Manifest V3, ID: <span className="font-mono text-blue-400">bkbmplkfckpkjkjkmeipomiklhdbfobo</span>) and the ProfiVault web portal.
-            </p>
-
-            <div className="pt-2 flex flex-wrap items-center gap-4 text-xs text-slate-400">
-              <span className="flex items-center gap-1.5">
-                <Clock className="w-3.5 h-3.5 text-blue-400" />
-                <span>Last Updated: <strong className="text-slate-200">October 12, 2026</strong></span>
-              </span>
-              <span className="hidden sm:inline text-slate-700">•</span>
-              <span className="flex items-center gap-1.5">
-                <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" />
-                <span>Status: <strong className="text-emerald-400">Fully Compliant with Google User Data Privacy Policy</strong></span>
-              </span>
-            </div>
+          {/* Policy Metadata Badges */}
+          <div className="flex flex-wrap items-center gap-2 sm:gap-3 pt-2 text-xs text-slate-400 font-mono">
+            <span className="px-2.5 py-1 rounded-lg bg-slate-900 border border-slate-800 text-slate-300 flex items-center gap-1.5">
+              <Clock className="w-3.5 h-3.5 text-blue-400" />
+              Last Updated: October 2026
+            </span>
+            <span className="px-2.5 py-1 rounded-lg bg-slate-900 border border-slate-800 text-slate-300 flex items-center gap-1.5">
+              <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" />
+              Effective Date: October 12, 2026
+            </span>
+            <span className="px-2.5 py-1 rounded-lg bg-slate-900 border border-slate-800 text-slate-300 flex items-center gap-1.5">
+              <Layers className="w-3.5 h-3.5 text-sky-400" />
+              Version: {CONFIG.VERSION}
+            </span>
+            <span className="px-2.5 py-1 rounded-lg bg-slate-900 border border-slate-800 text-slate-300 flex items-center gap-1.5">
+              <Globe className="w-3.5 h-3.5 text-indigo-400" />
+              Public Status: Active
+            </span>
           </div>
         </div>
 
-        {/* Quick Highlights Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-          <div className="p-4 rounded-2xl bg-slate-900/60 border border-slate-800/80 flex items-start gap-3">
-            <div className="w-9 h-9 rounded-xl bg-blue-500/10 flex items-center justify-center shrink-0 border border-blue-500/20 text-blue-400">
-              <HardDrive className="w-5 h-5" />
+        {/* Privacy at a Glance Highlights Box */}
+        <div className="p-6 rounded-3xl bg-gradient-to-br from-blue-950/40 via-slate-900/80 to-slate-950 border border-blue-900/40 space-y-4">
+          <div className="flex items-center gap-2.5">
+            <div className="w-8 h-8 rounded-xl bg-blue-500/10 text-blue-400 flex items-center justify-center border border-blue-500/20">
+              <Lock className="w-4 h-4" />
             </div>
-            <div>
-              <h4 className="text-xs font-bold text-white uppercase tracking-wider">Local by Default</h4>
-              <p className="text-xs text-slate-400 mt-0.5">Works 100% offline in Guest Mode. Data stays in local browser storage.</p>
-            </div>
+            <h2 className="text-lg font-bold text-white tracking-tight">Privacy at a Glance</h2>
           </div>
 
-          <div className="p-4 rounded-2xl bg-slate-900/60 border border-slate-800/80 flex items-start gap-3">
-            <div className="w-9 h-9 rounded-xl bg-emerald-500/10 flex items-center justify-center shrink-0 border border-emerald-500/20 text-emerald-400">
-              <Key className="w-5 h-5" />
-            </div>
-            <div>
-              <h4 className="text-xs font-bold text-white uppercase tracking-wider">Optional Google Sign-In</h4>
-              <p className="text-xs text-slate-400 mt-0.5">OAuth used exclusively for user authentication and cross-device sync.</p>
-            </div>
-          </div>
-
-          <div className="p-4 rounded-2xl bg-slate-900/60 border border-slate-800/80 flex items-start gap-3">
-            <div className="w-9 h-9 rounded-xl bg-sky-500/10 flex items-center justify-center shrink-0 border border-sky-500/20 text-sky-400">
-              <Copy className="w-5 h-5" />
-            </div>
-            <div>
-              <h4 className="text-xs font-bold text-white uppercase tracking-wider">Write-Only Clipboard</h4>
-              <p className="text-xs text-slate-400 mt-0.5">Only writes selected URL on 1-click copy. Never reads clipboard content.</p>
-            </div>
-          </div>
-
-          <div className="p-4 rounded-2xl bg-slate-900/60 border border-slate-800/80 flex items-start gap-3">
-            <div className="w-9 h-9 rounded-xl bg-amber-500/10 flex items-center justify-center shrink-0 border border-amber-500/20 text-amber-400">
-              <EyeOff className="w-5 h-5" />
-            </div>
-            <div>
-              <h4 className="text-xs font-bold text-white uppercase tracking-wider">Zero Tracking or Ads</h4>
-              <p className="text-xs text-slate-400 mt-0.5">No browsing history tracking, no ad trackers, no sale of user data.</p>
-            </div>
-          </div>
-        </div>
-
-        {/* Main Content Layout with Sticky Sidebar */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start pt-4">
-          
-          {/* Table of Contents - Desktop Sticky Sidebar */}
-          <aside className="lg:col-span-4 sticky top-24 space-y-4">
-            <div className="p-5 rounded-2xl bg-slate-900/90 border border-slate-800 shadow-lg backdrop-blur-md">
-              <div className="flex items-center gap-2 pb-3 mb-3 border-b border-slate-800">
-                <FileText className="w-4 h-4 text-blue-400" />
-                <h3 className="text-xs font-bold uppercase tracking-wider text-white">Policy Table of Contents</h3>
-              </div>
-              
-              <nav className="space-y-1 max-h-[70vh] overflow-y-auto pr-1 text-xs">
-                {sections.map((s) => (
-                  <button
-                    key={s.id}
-                    onClick={() => scrollToSection(s.id)}
-                    className={`w-full text-left px-3 py-2 rounded-xl transition flex items-center justify-between group cursor-pointer ${
-                      activeSection === s.id
-                        ? 'bg-blue-600 text-white font-semibold shadow-xs'
-                        : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800/70'
-                    }`}
-                  >
-                    <span className="truncate">{s.label}</span>
-                    <ChevronRight className={`w-3.5 h-3.5 shrink-0 transition-transform ${activeSection === s.id ? 'text-white' : 'text-slate-600 group-hover:text-slate-400'}`} />
-                  </button>
-                ))}
-              </nav>
-            </div>
-
-            {/* Quick Contact Card */}
-            <div className="p-5 rounded-2xl bg-blue-950/30 border border-blue-900/50 space-y-3">
-              <div className="flex items-center gap-2 text-blue-400">
-                <Mail className="w-4 h-4" />
-                <span className="text-xs font-bold uppercase tracking-wider">Privacy Contact</span>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 pt-1">
+            <div className="p-4 rounded-xl bg-slate-900/80 border border-slate-800 space-y-1.5">
+              <div className="flex items-center gap-2 text-emerald-400 text-xs font-bold uppercase tracking-wider">
+                <CheckCircle2 className="w-4 h-4" />
+                <span>Zero Tracking Cookies</span>
               </div>
               <p className="text-xs text-slate-300 leading-relaxed">
-                Have questions or need data deletion? Email our compliance team directly:
+                We do not use advertising, marketing, or cross-site tracking cookies on this website.
               </p>
-              <a
-                href={`mailto:${CONFIG.PRIVACY_EMAIL}`}
-                className="inline-block text-xs font-mono text-blue-400 hover:text-blue-300 hover:underline break-all"
-              >
-                {CONFIG.PRIVACY_EMAIL}
-              </a>
             </div>
-          </aside>
 
-          {/* Detailed Policy Document Sections */}
-          <main className="lg:col-span-8 space-y-8 text-sm sm:text-base leading-relaxed text-slate-300">
-
-            {/* Section 1: Introduction & Scope */}
-            <section id="intro" className="scroll-mt-24 p-6 sm:p-8 rounded-2xl bg-slate-900/70 border border-slate-800 space-y-4">
-              <div className="flex items-center gap-2 text-blue-400 text-xs font-bold uppercase tracking-wider">
-                <Sparkles className="w-4 h-4" />
-                <span>Section 1</span>
-              </div>
-              <h2 className="text-xl sm:text-2xl font-bold text-white">1. Introduction and Scope</h2>
-              <p>
-                This Privacy Policy describes how the developer team of <strong className="text-white">ProfiVault</strong> ("we", "us", or "our") accesses, collects, handles, stores, processes, and protects user information in connection with the <strong className="text-white">ProfiVault – Fast Profile Link Copier</strong> browser extension for Google Chrome (Manifest V3) and our official website (<a href={CONFIG.SITE_URL} className="text-blue-400 hover:underline">{CONFIG.SITE_URL}</a>).
-              </p>
-              <p>
-                ProfiVault is designed as a productivity tool for students, job applicants, developers, freelancers, and professionals who frequently copy and paste their career profile links (including LinkedIn, GitHub, personal portfolio websites, resumes, and coding platforms like LeetCode, CodeChef, HackerRank, GeeksForGeeks, Kaggle, and StackOverflow) into job applications, client proposals, and recruitment portals.
-              </p>
-              <p>
-                Our core architectural principle is <strong className="text-white">privacy by design and minimal data footprint</strong>. The extension functions fully offline in Guest Mode without requiring account creation. We do not track your web browsing activity, inspect third-party webpage content, or monetize user data.
-              </p>
-            </section>
-
-            {/* Section 2: Information Accessed & Collected */}
-            <section id="data-collected" className="scroll-mt-24 p-6 sm:p-8 rounded-2xl bg-slate-900/70 border border-slate-800 space-y-4">
-              <div className="flex items-center gap-2 text-blue-400 text-xs font-bold uppercase tracking-wider">
-                <Database className="w-4 h-4" />
-                <span>Section 2</span>
-              </div>
-              <h2 className="text-xl sm:text-2xl font-bold text-white">2. Information the Extension Accesses and Collects</h2>
-              <p>
-                ProfiVault collects and accesses only the data strictly necessary to fulfill its declared single purpose of saving, organizing, and quickly copying user-provided professional profile links. We categorize this information as follows:
-              </p>
-
-              <div className="space-y-4 pt-2">
-                <div className="p-4 rounded-xl bg-slate-950/80 border border-slate-800/80 space-y-2">
-                  <h3 className="font-bold text-white text-sm flex items-center gap-2">
-                    <span className="w-2 h-2 rounded-full bg-blue-400" />
-                    A. User-Provided Profile Links and Metadata
-                  </h3>
-                  <p className="text-xs sm:text-sm text-slate-300">
-                    When you save or import links into ProfiVault, the extension stores:
-                  </p>
-                  <ul className="list-disc pl-5 text-xs sm:text-sm space-y-1 text-slate-300">
-                    <li><strong className="text-white">Profile URLs:</strong> Web addresses input by the user (e.g., LinkedIn profile URL, GitHub profile URL, portfolio link, Google Drive resume URL, coding platform links, or custom web links).</li>
-                    <li><strong className="text-white">Display Titles & Labels:</strong> User-customized names for each link (e.g., "My GitHub", "Senior Resume 2026").</li>
-                    <li><strong className="text-white">Usernames & Handles:</strong> Optional username or handle associated with the platform.</li>
-                    <li><strong className="text-white">Descriptions & Notes:</strong> Optional private notes or context attached to a link.</li>
-                    <li><strong className="text-white">Category Tags:</strong> Categorization labels (such as <code className="text-xs font-mono text-blue-300 bg-slate-900 px-1 py-0.5 rounded">professional</code>, <code className="text-xs font-mono text-blue-300 bg-slate-900 px-1 py-0.5 rounded">coding</code>, <code className="text-xs font-mono text-blue-300 bg-slate-900 px-1 py-0.5 rounded">social</code>, <code className="text-xs font-mono text-blue-300 bg-slate-900 px-1 py-0.5 rounded">creative</code>, or <code className="text-xs font-mono text-blue-300 bg-slate-900 px-1 py-0.5 rounded">custom</code>).</li>
-                    <li><strong className="text-white">Organization Flags:</strong> Favorite status (<code className="text-xs font-mono text-blue-300 bg-slate-900 px-1 py-0.5 rounded">isFavorite</code>), Quick Copy bar pinning status (<code className="text-xs font-mono text-blue-300 bg-slate-900 px-1 py-0.5 rounded">isQuickCopy</code>), manual sort order (<code className="text-xs font-mono text-blue-300 bg-slate-900 px-1 py-0.5 rounded">sortOrder</code>), local copy counter (<code className="text-xs font-mono text-blue-300 bg-slate-900 px-1 py-0.5 rounded">copyCount</code>), and timestamps (<code className="text-xs font-mono text-blue-300 bg-slate-900 px-1 py-0.5 rounded">createdAt</code>, <code className="text-xs font-mono text-blue-300 bg-slate-900 px-1 py-0.5 rounded">updatedAt</code>, <code className="text-xs font-mono text-blue-300 bg-slate-900 px-1 py-0.5 rounded">lastCopiedAt</code>).</li>
-                  </ul>
-                </div>
-
-                <div className="p-4 rounded-xl bg-slate-950/80 border border-slate-800/80 space-y-2">
-                  <h3 className="font-bold text-white text-sm flex items-center gap-2">
-                    <span className="w-2 h-2 rounded-full bg-blue-400" />
-                    B. Extension Preferences and Settings
-                  </h3>
-                  <p className="text-xs sm:text-sm text-slate-300">
-                    To tailor the user interface, the extension stores configuration preferences:
-                  </p>
-                  <ul className="list-disc pl-5 text-xs sm:text-sm space-y-1 text-slate-300">
-                    <li>Theme preference (<code className="text-xs font-mono text-blue-300 bg-slate-900 px-1 py-0.5 rounded">theme</code>: <code className="text-xs font-mono text-slate-300">'light' | 'dark' | 'system'</code>).</li>
-                    <li>Behavioral toggles: <code className="text-xs font-mono text-blue-300 bg-slate-900 px-1 py-0.5 rounded">autoCloseOnCopy</code>, <code className="text-xs font-mono text-blue-300 bg-slate-900 px-1 py-0.5 rounded">showCopyNotification</code>, <code className="text-xs font-mono text-blue-300 bg-slate-900 px-1 py-0.5 rounded">defaultOpenInNewTab</code>, and <code className="text-xs font-mono text-blue-300 bg-slate-900 px-1 py-0.5 rounded">syncEnabled</code>.</li>
-                    <li>Quick Copy chips display threshold (<code className="text-xs font-mono text-blue-300 bg-slate-900 px-1 py-0.5 rounded">quickCopyLimit</code>) and initial onboarding flag (<code className="text-xs font-mono text-blue-300 bg-slate-900 px-1 py-0.5 rounded">ProfiVault_has_onboarded</code>).</li>
-                  </ul>
-                </div>
-
-                <div className="p-4 rounded-xl bg-slate-950/80 border border-slate-800/80 space-y-2">
-                  <h3 className="font-bold text-white text-sm flex items-center gap-2">
-                    <span className="w-2 h-2 rounded-full bg-emerald-400" />
-                    C. Google Account Data (Optional — Only When User Chooses Google Sign-In)
-                  </h3>
-                  <p className="text-xs sm:text-sm text-slate-300">
-                    If and only if you explicitly choose to sign in with your Google account via Chrome Identity API (<code className="text-xs font-mono text-blue-300 bg-slate-900 px-1 py-0.5 rounded">chrome.identity</code>), the extension accesses:
-                  </p>
-                  <ul className="list-disc pl-5 text-xs sm:text-sm space-y-1 text-slate-300">
-                    <li><strong className="text-white">Google User Identifier (<code className="text-xs font-mono text-blue-300 bg-slate-900 px-1 py-0.5 rounded">sub</code>):</strong> A unique numeric ID assigned by Google.</li>
-                    <li><strong className="text-white">Email Address:</strong> Used to identify your account and associate cloud synchronization.</li>
-                    <li><strong className="text-white">Display Name:</strong> Used to display your greeting in the extension header.</li>
-                    <li><strong className="text-white">Profile Picture URL:</strong> Used solely to render your avatar icon in the UI.</li>
-                    <li><strong className="text-white">OAuth Access Token:</strong> Short-lived token used to authenticate requests to the ProfiVault sync backend.</li>
-                  </ul>
-                  <p className="text-xs text-amber-300 bg-amber-950/30 p-2.5 rounded-lg border border-amber-900/50 mt-1">
-                    <strong>Note:</strong> If you use ProfiVault in Guest Mode, <strong>zero</strong> Google account information is ever requested, accessed, or collected.
-                  </p>
-                </div>
-
-                <div className="p-4 rounded-xl bg-slate-950/80 border border-slate-800/80 space-y-2">
-                  <h3 className="font-bold text-white text-sm flex items-center gap-2">
-                    <span className="w-2 h-2 rounded-full bg-rose-400" />
-                    D. Data ProfiVault Explicitly DOES NOT Access or Collect
-                  </h3>
-                  <p className="text-xs sm:text-sm text-slate-300">
-                    To prevent any ambiguity, ProfiVault never accesses or collects:
-                  </p>
-                  <ul className="list-disc pl-5 text-xs sm:text-sm space-y-1 text-slate-400">
-                    <li>Your browsing history, visited URLs, tabs, or bookmarks.</li>
-                    <li>Web page contents, DOM trees, forms, or text on sites you visit.</li>
-                    <li>Keystrokes, passwords, autofill credentials, or financial data.</li>
-                    <li>Google Drive contents (other than user-pasted public resume URLs), Gmail messages, contacts, or calendar data.</li>
-                    <li>Your existing clipboard contents or clipboard history (ProfiVault is strictly write-only on user action).</li>
-                    <li>IP addresses for geolocation, device serial numbers, or advertising identifiers.</li>
-                  </ul>
-                </div>
-              </div>
-            </section>
-
-            {/* Section 3: Purpose of Processing Each Data Category */}
-            <section id="purpose" className="scroll-mt-24 p-6 sm:p-8 rounded-2xl bg-slate-900/70 border border-slate-800 space-y-4">
-              <div className="flex items-center gap-2 text-blue-400 text-xs font-bold uppercase tracking-wider">
+            <div className="p-4 rounded-xl bg-slate-900/80 border border-slate-800 space-y-1.5">
+              <div className="flex items-center gap-2 text-emerald-400 text-xs font-bold uppercase tracking-wider">
                 <CheckCircle2 className="w-4 h-4" />
-                <span>Section 3</span>
+                <span>Zero Data Sales</span>
               </div>
-              <h2 className="text-xl sm:text-2xl font-bold text-white">3. Purpose of Processing Each Data Category</h2>
-              <p>
-                Every piece of information handled by ProfiVault directly supports a specific, user-facing function of the extension. We do not process data for secondary purposes, advertising, analytics tracking, or profiling.
+              <p className="text-xs text-slate-300 leading-relaxed">
+                We never sell, rent, monetize, or trade personal data or profile links to third parties or recruiters.
               </p>
+            </div>
 
-              <div className="overflow-x-auto pt-2">
-                <table className="w-full text-left text-xs sm:text-sm border-collapse">
-                  <thead>
-                    <tr className="border-b border-slate-800 text-slate-400">
-                      <th className="py-2.5 px-3 font-semibold">Data Category</th>
-                      <th className="py-2.5 px-3 font-semibold">Specific Purpose</th>
-                      <th className="py-2.5 px-3 font-semibold">Legal / Operational Basis</th>
-                    </tr>
-                  </thead>
-                  <tbody className="divide-y divide-slate-800/60 text-slate-300">
-                    <tr>
-                      <td className="py-3 px-3 font-medium text-white">Profile URLs & Titles</td>
-                      <td className="py-3 px-3">Allows users to store, organize, view, and 1-click copy their URLs during application form filling.</td>
-                      <td className="py-3 px-3 text-slate-400">Performance of user-requested core functionality.</td>
-                    </tr>
-                    <tr>
-                      <td className="py-3 px-3 font-medium text-white">Category Tags & Organization Flags</td>
-                      <td className="py-3 px-3">Enables category filtering (e.g., Coding vs. Professional), pinning top links to Quick Copy bar, and usage sorting.</td>
-                      <td className="py-3 px-3 text-slate-400">User configuration and interface personalization.</td>
-                    </tr>
-                    <tr>
-                      <td className="py-3 px-3 font-medium text-white">Settings & Preferences</td>
-                      <td className="py-3 px-3">Remembers UI dark/light theme, auto-close preference, and notification settings across browser sessions.</td>
-                      <td className="py-3 px-3 text-slate-400">User experience persistence.</td>
-                    </tr>
-                    <tr>
-                      <td className="py-3 px-3 font-medium text-white">Google OAuth Identity (Optional)</td>
-                      <td className="py-3 px-3">Authenticates user identity, establishes a secure session, and binds cloud-synced links to the user account across devices.</td>
-                      <td className="py-3 px-3 text-slate-400">Explicit user consent (initiated by user clicking Sign In).</td>
-                    </tr>
-                    <tr>
-                      <td className="py-3 px-3 font-medium text-white">Clipboard Write Operation</td>
-                      <td className="py-3 px-3">Places the selected URL into the operating system clipboard upon clicking "Copy".</td>
-                      <td className="py-3 px-3 text-slate-400">Immediate user-initiated command execution.</td>
-                    </tr>
-                    <tr>
-                      <td className="py-3 px-3 font-medium text-white">Support Communications</td>
-                      <td className="py-3 px-3">Responds to user questions, bug reports, or compliance inquiries submitted through the website.</td>
-                      <td className="py-3 px-3 text-slate-400">Customer support communication.</td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-            </section>
-
-            {/* Section 4: How Data is Handled & Processed */}
-            <section id="handling" className="scroll-mt-24 p-6 sm:p-8 rounded-2xl bg-slate-900/70 border border-slate-800 space-y-4">
-              <div className="flex items-center gap-2 text-blue-400 text-xs font-bold uppercase tracking-wider">
-                <Lock className="w-4 h-4" />
-                <span>Section 4</span>
-              </div>
-              <h2 className="text-xl sm:text-2xl font-bold text-white">4. How Information is Handled and Processed</h2>
-              <p>
-                ProfiVault processes data differently depending on the operating mode selected by the user:
-              </p>
-
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-2">
-                <div className="p-5 rounded-xl bg-slate-950/80 border border-slate-800/80 space-y-3">
-                  <div className="flex items-center gap-2 text-white font-bold text-sm">
-                    <HardDrive className="w-4 h-4 text-blue-400" />
-                    <span>Guest Mode (100% Local Processing)</span>
-                  </div>
-                  <p className="text-xs text-slate-300 leading-relaxed">
-                    By default, ProfiVault runs in Guest Mode. All profile creation, modification, reordering, searching, and deletion are processed entirely on your local device inside the Chrome extension sandboxed environment.
-                  </p>
-                  <p className="text-xs text-slate-400">
-                    No profile links, settings, or credentials leave your computer or touch any external server.
-                  </p>
-                </div>
-
-                <div className="p-5 rounded-xl bg-slate-950/80 border border-slate-800/80 space-y-3">
-                  <div className="flex items-center gap-2 text-white font-bold text-sm">
-                    <Server className="w-4 h-4 text-emerald-400" />
-                    <span>Synchronized Mode (Encrypted Cloud Sync)</span>
-                  </div>
-                  <p className="text-xs text-slate-300 leading-relaxed">
-                    When you sign in with Google and enable synchronization, your saved profile links are transmitted over secure TLS 1.3 / HTTPS to our dedicated synchronization API hosted on Render (<code className="text-xs font-mono text-blue-300">https://linkvaultapi.onrender.com/api</code>).
-                  </p>
-                  <p className="text-xs text-slate-400">
-                    The backend merges links across your authenticated sessions and returns the unified list to your extension storage.
-                  </p>
-                </div>
-              </div>
-
-              <div className="p-4 rounded-xl bg-slate-950/80 border border-slate-800/80 space-y-2 mt-2">
-                <h3 className="font-bold text-white text-sm flex items-center gap-2">
-                  <Download className="w-4 h-4 text-sky-400" />
-                  <span>Local JSON Export and Import Processing</span>
-                </h3>
-                <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
-                  When you use the Export feature, ProfiVault compiles your links into a standard JSON file directly in browser memory using HTML5 Blob technology and triggers a browser download. When importing a JSON backup, the file is parsed and validated locally in your browser before saving. No file contents are transmitted to external servers during export or import.
-                </p>
-              </div>
-            </section>
-
-            {/* Section 5: Local vs Cloud Storage */}
-            <section id="storage" className="scroll-mt-24 p-6 sm:p-8 rounded-2xl bg-slate-900/70 border border-slate-800 space-y-4">
-              <div className="flex items-center gap-2 text-blue-400 text-xs font-bold uppercase tracking-wider">
-                <HardDrive className="w-4 h-4" />
-                <span>Section 5</span>
-              </div>
-              <h2 className="text-xl sm:text-2xl font-bold text-white">5. Local Browser Storage and Any Cloud Storage</h2>
-              <p>
-                We clearly distinguish between storage environments used by ProfiVault:
-              </p>
-
-              <div className="space-y-4 pt-2">
-                <div className="p-5 rounded-xl bg-slate-950/80 border border-slate-800/80 space-y-3">
-                  <h3 className="font-bold text-white text-base flex items-center gap-2">
-                    <span className="w-2.5 h-2.5 rounded-full bg-blue-400" />
-                    Local Browser Storage (<code className="text-xs font-mono text-blue-300">chrome.storage.local</code>)
-                  </h3>
-                  <p className="text-xs sm:text-sm text-slate-300">
-                    ProfiVault relies primarily on Google Chrome's local storage partition (<code className="text-xs font-mono text-blue-300 bg-slate-900 px-1 py-0.5 rounded">chrome.storage.local</code>). The specific keys stored on your device are:
-                  </p>
-                  <ul className="list-disc pl-5 text-xs sm:text-sm space-y-1 text-slate-300">
-                    <li><code className="text-xs font-mono text-blue-300 bg-slate-900 px-1 py-0.5 rounded">ProfiVault_profiles</code>: Array of your saved profile links and metadata.</li>
-                    <li><code className="text-xs font-mono text-blue-300 bg-slate-900 px-1 py-0.5 rounded">ProfiVault_settings</code>: User configuration object (theme, copy behavior, notification preferences).</li>
-                    <li><code className="text-xs font-mono text-blue-300 bg-slate-900 px-1 py-0.5 rounded">ProfiVault_auth</code>: Active session object (<code className="text-xs font-mono text-slate-300">{`{ isGuest: boolean, token: string | null, user: UserProfile | null }`}</code>).</li>
-                    <li><code className="text-xs font-mono text-blue-300 bg-slate-900 px-1 py-0.5 rounded">ProfiVault_has_onboarded</code>: Boolean flag recording whether the initial introductory tutorial was completed.</li>
-                    <li><code className="text-xs font-mono text-blue-300 bg-slate-900 px-1 py-0.5 rounded">ProfiVault_recently_copied</code>: Temporary tracking of the most recently copied link ID for UI highlight.</li>
-                  </ul>
-                  <div className="p-3 rounded-lg bg-blue-950/30 border border-blue-900/50 text-xs text-blue-300">
-                    <strong>Important Technical Distinction:</strong> ProfiVault does <strong>NOT</strong> utilize <code className="font-mono text-blue-200">chrome.storage.sync</code> (Google Chrome's browser-level account synchronization). Local storage entries remain isolated to your specific local Chrome browser profile.
-                  </div>
-                </div>
-
-                <div className="p-5 rounded-xl bg-slate-950/80 border border-slate-800/80 space-y-3">
-                  <h3 className="font-bold text-white text-base flex items-center gap-2">
-                    <span className="w-2.5 h-2.5 rounded-full bg-emerald-400" />
-                    Remote Cloud Storage (Only if Google Sign-In is Enabled)
-                  </h3>
-                  <p className="text-xs sm:text-sm text-slate-300">
-                    When you choose to enable cloud synchronization:
-                  </p>
-                  <ul className="list-disc pl-5 text-xs sm:text-sm space-y-1 text-slate-300">
-                    <li><strong className="text-white">Cloud Host:</strong> Hosted on Render Services Inc. (<code className="text-xs font-mono text-blue-300">https://linkvaultapi.onrender.com/api</code>).</li>
-                    <li><strong className="text-white">Stored Entities:</strong> Your user profile record (Google ID, email, name, profile image) and your saved profile links.</li>
-                    <li><strong className="text-white">Access Control:</strong> All cloud database records are strictly partitioned by authenticated user ID and protected by encrypted JWT tokens. No user can access or view links belonging to another user.</li>
-                    <li><strong className="text-white">Disabling Sync:</strong> You can turn off synchronization or sign out at any time. When signed out, no further communications occur with cloud storage.</li>
-                  </ul>
-                </div>
-              </div>
-            </section>
-
-            {/* Section 6: Google Sign-In and OAuth Data */}
-            <section id="google-oauth" className="scroll-mt-24 p-6 sm:p-8 rounded-2xl bg-slate-900/70 border border-slate-800 space-y-4">
-              <div className="flex items-center gap-2 text-blue-400 text-xs font-bold uppercase tracking-wider">
-                <UserCheck className="w-4 h-4" />
-                <span>Section 6</span>
-              </div>
-              <h2 className="text-xl sm:text-2xl font-bold text-white">6. Google Sign-In and OAuth Data</h2>
-              <p>
-                ProfiVault declares the <code className="text-xs font-mono text-blue-300 bg-slate-950 px-1 py-0.5 rounded">identity</code> permission in its Chrome Manifest V3 file to support optional Google Sign-In.
-              </p>
-
-              <div className="space-y-4 pt-2">
-                <div className="p-4 rounded-xl bg-slate-950/80 border border-slate-800/80 space-y-3">
-                  <h3 className="font-bold text-white text-sm">OAuth Scopes Declared and Usage</h3>
-                  <div className="overflow-x-auto">
-                    <table className="w-full text-left text-xs border-collapse">
-                      <thead>
-                        <tr className="border-b border-slate-800 text-slate-400">
-                          <th className="py-2 px-3 font-semibold">Scope</th>
-                          <th className="py-2 px-3 font-semibold">Why It Is Requested</th>
-                          <th className="py-2 px-3 font-semibold">What We Do With It</th>
-                        </tr>
-                      </thead>
-                      <tbody className="divide-y divide-slate-800/60 text-slate-300">
-                        <tr>
-                          <td className="py-2.5 px-3 font-mono text-blue-300">openid</td>
-                          <td className="py-2.5 px-3">Standard OpenID Connect protocol authentication.</td>
-                          <td className="py-2.5 px-3">Verifies your Google account identity.</td>
-                        </tr>
-                        <tr>
-                          <td className="py-2.5 px-3 font-mono text-blue-300">https://www.googleapis.com/auth/userinfo.email</td>
-                          <td className="py-2.5 px-3">Retrieves your verified Google email address.</td>
-                          <td className="py-2.5 px-3">Identifies your account and binds your cloud sync link repository.</td>
-                        </tr>
-                        <tr>
-                          <td className="py-2.5 px-3 font-mono text-blue-300">https://www.googleapis.com/auth/userinfo.profile</td>
-                          <td className="py-2.5 px-3">Retrieves your display name and public avatar image URL.</td>
-                          <td className="py-2.5 px-3">Renders your name and profile avatar in the extension header.</td>
-                        </tr>
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
-
-                <div className="p-4 rounded-xl bg-slate-950/80 border border-slate-800/80 space-y-2">
-                  <h3 className="font-bold text-white text-sm">Token Lifecycle and Security</h3>
-                  <p className="text-xs sm:text-sm text-slate-300">
-                    Authentication is performed using Google's official <code className="text-xs font-mono text-blue-300 bg-slate-900 px-1 py-0.5 rounded">chrome.identity.getAuthToken</code> API (or <code className="text-xs font-mono text-blue-300 bg-slate-900 px-1 py-0.5 rounded">launchWebAuthFlow</code>). The access token is exchanged securely with our backend (<code className="text-xs font-mono text-blue-300">/api/auth/google</code>) to issue an application session token.
-                  </p>
-                  <p className="text-xs sm:text-sm text-slate-300">
-                    When you click "Sign Out", ProfiVault calls <code className="text-xs font-mono text-blue-300 bg-slate-900 px-1 py-0.5 rounded">chrome.identity.clearAllCachedAuthTokens()</code> and purges all authentication tokens and user profile records from local storage.
-                  </p>
-                </div>
-              </div>
-            </section>
-
-            {/* Section 7: Clipboard Behavior */}
-            <section id="clipboard" className="scroll-mt-24 p-6 sm:p-8 rounded-2xl bg-slate-900/70 border border-slate-800 space-y-4">
-              <div className="flex items-center gap-2 text-blue-400 text-xs font-bold uppercase tracking-wider">
-                <Copy className="w-4 h-4" />
-                <span>Section 7</span>
-              </div>
-              <h2 className="text-xl sm:text-2xl font-bold text-white">7. Clipboard Behavior and Permissions</h2>
-              <p>
-                ProfiVault requests the <code className="text-xs font-mono text-blue-300 bg-slate-950 px-1 py-0.5 rounded">clipboardWrite</code> permission in its Chrome extension manifest.
-              </p>
-
-              <div className="p-5 rounded-xl bg-slate-950/80 border border-slate-800/80 space-y-3">
-                <div className="flex items-center gap-2 text-white font-bold text-sm">
-                  <CheckCircle2 className="w-4 h-4 text-emerald-400" />
-                  <span>Strict Write-Only Execution Upon Explicit User Action</span>
-                </div>
-                <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
-                  The <code className="text-xs font-mono text-blue-300 bg-slate-900 px-1 py-0.5 rounded">clipboardWrite</code> permission is invoked <strong>strictly and exclusively</strong> when you manually click:
-                </p>
-                <ul className="list-disc pl-5 text-xs sm:text-sm space-y-1 text-slate-300">
-                  <li>The "Copy" button icon next to any saved profile card.</li>
-                  <li>A Quick Copy chip in the Quick Copy bar.</li>
-                  <li>The "Copy URL" button in the extension options dashboard.</li>
-                </ul>
-                <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
-                  Upon that click, the extension invokes <code className="text-xs font-mono text-blue-300 bg-slate-900 px-1 py-0.5 rounded">navigator.clipboard.writeText(url)</code> to place that specific URL onto your system clipboard, displays a confirmation toast, and optionally closes the popup if <code className="text-xs font-mono text-blue-300 bg-slate-900 px-1 py-0.5 rounded">autoCloseOnCopy</code> is enabled.
-                </p>
-                <div className="p-3 rounded-lg bg-emerald-950/30 border border-emerald-900/50 text-xs text-emerald-300">
-                  <strong>Zero Clipboard Reading:</strong> ProfiVault does <strong>NOT</strong> request or hold the <code className="font-mono text-emerald-200">clipboardRead</code> permission. ProfiVault never calls <code className="font-mono text-emerald-200">navigator.clipboard.readText()</code> and has zero technical capability to read, monitor, log, or access any existing contents of your system clipboard.
-                </div>
-              </div>
-            </section>
-
-            {/* Section 8: Data Sharing and Third-Party Recipients */}
-            <section id="sharing" className="scroll-mt-24 p-6 sm:p-8 rounded-2xl bg-slate-900/70 border border-slate-800 space-y-4">
-              <div className="flex items-center gap-2 text-blue-400 text-xs font-bold uppercase tracking-wider">
-                <ShieldCheck className="w-4 h-4" />
-                <span>Section 8</span>
-              </div>
-              <h2 className="text-xl sm:text-2xl font-bold text-white">8. Data Sharing and Third-Party Recipients</h2>
-              <p>
-                We maintain an absolute commitment against unauthorized data distribution:
-              </p>
-
-              <div className="space-y-3 pt-2">
-                <div className="p-4 rounded-xl bg-slate-950/80 border border-slate-800/80 space-y-2">
-                  <h3 className="font-bold text-white text-sm text-emerald-400">No Sale, Rental, or Commercial Monetization</h3>
-                  <p className="text-xs sm:text-sm text-slate-300">
-                    ProfiVault <strong className="text-white">does not sell, rent, lease, trade, or transfer</strong> your personal data, saved profile URLs, account details, or usage patterns to third-party data brokers, advertising networks, recruiters, employers, or marketing agencies under any circumstances.
-                  </p>
-                </div>
-
-                <div className="p-4 rounded-xl bg-slate-950/80 border border-slate-800/80 space-y-2">
-                  <h3 className="font-bold text-white text-sm text-blue-400">Technical Service Providers (Data Processors)</h3>
-                  <p className="text-xs sm:text-sm text-slate-300">
-                    Information is transmitted only to reputable infrastructure providers strictly necessary to execute user-requested features:
-                  </p>
-                  <ul className="list-disc pl-5 text-xs sm:text-sm space-y-1 text-slate-300">
-                    <li><strong className="text-white">Google LLC:</strong> Facilitates OAuth authentication via Chrome Identity API (<a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer" className="text-blue-400 hover:underline">Google Privacy Policy</a>).</li>
-                    <li><strong className="text-white">Render Services Inc.:</strong> Hosts our optional cloud synchronization API and database servers under strict data processing agreements (<a href="https://render.com/privacy" target="_blank" rel="noopener noreferrer" className="text-blue-400 hover:underline">Render Privacy Policy</a>).</li>
-                    <li><strong className="text-white">Web3Forms:</strong> Relays customer support inquiries submitted via the website contact form directly to our developer inbox (<a href="https://web3forms.com/privacy" target="_blank" rel="noopener noreferrer" className="text-blue-400 hover:underline">Web3Forms Privacy Policy</a>).</li>
-                    <li><strong className="text-white">Vercel Inc.:</strong> Hosts the static documentation and public privacy policy web portal (<a href="https://vercel.com/legal/privacy-policy" target="_blank" rel="noopener noreferrer" className="text-blue-400 hover:underline">Vercel Privacy Policy</a>).</li>
-                  </ul>
-                </div>
-
-                <div className="p-4 rounded-xl bg-slate-950/80 border border-slate-800/80 space-y-2">
-                  <h3 className="font-bold text-white text-sm text-slate-200">Legal Disclosures</h3>
-                  <p className="text-xs sm:text-sm text-slate-300">
-                    We may disclose information only if strictly required by applicable law, regulation, valid subpoena, or governmental request.
-                  </p>
-                </div>
-              </div>
-            </section>
-
-            {/* Section 9: External Services and APIs */}
-            <section id="external-apis" className="scroll-mt-24 p-6 sm:p-8 rounded-2xl bg-slate-900/70 border border-slate-800 space-y-4">
-              <div className="flex items-center gap-2 text-blue-400 text-xs font-bold uppercase tracking-wider">
-                <Server className="w-4 h-4" />
-                <span>Section 9</span>
-              </div>
-              <h2 className="text-xl sm:text-2xl font-bold text-white">9. External Services and APIs</h2>
-              <p>
-                To provide complete transparency, the following is an exhaustive audit of all external network domains accessed by the ProfiVault extension and web portal:
-              </p>
-
-              <div className="overflow-x-auto pt-2">
-                <table className="w-full text-left text-xs sm:text-sm border-collapse">
-                  <thead>
-                    <tr className="border-b border-slate-800 text-slate-400">
-                      <th className="py-2.5 px-3 font-semibold">Service Domain</th>
-                      <th className="py-2.5 px-3 font-semibold">Endpoint Purpose</th>
-                      <th className="py-2.5 px-3 font-semibold">When Triggered</th>
-                    </tr>
-                  </thead>
-                  <tbody className="divide-y divide-slate-800/60 text-slate-300">
-                    <tr>
-                      <td className="py-3 px-3 font-mono text-blue-300">accounts.google.com</td>
-                      <td className="py-3 px-3">Google OAuth 2.0 authorization dialog.</td>
-                      <td className="py-3 px-3">Only when user initiates Google Sign-In.</td>
-                    </tr>
-                    <tr>
-                      <td className="py-3 px-3 font-mono text-blue-300">googleapis.com/oauth2/v3/userinfo</td>
-                      <td className="py-3 px-3">Retrieves user's Google ID, name, email, and avatar picture.</td>
-                      <td className="py-3 px-3">Only when authenticating with Google token.</td>
-                    </tr>
-                    <tr>
-                      <td className="py-3 px-3 font-mono text-blue-300">linkvaultapi.onrender.com/api</td>
-                      <td className="py-3 px-3">ProfiVault backend for cloud sync (<code className="text-xs">/auth/google</code>, <code className="text-xs">/links</code>, <code className="text-xs">/links/sync</code>, <code className="text-xs">/user/account</code>).</td>
-                      <td className="py-3 px-3">Only when signed into a Google account with sync enabled.</td>
-                    </tr>
-                    <tr>
-                      <td className="py-3 px-3 font-mono text-blue-300">api.dicebear.com/7.x/</td>
-                      <td className="py-3 px-3">Open-source avatar SVG fallback generator.</td>
-                      <td className="py-3 px-3">Only if user Google account lacks a profile picture.</td>
-                    </tr>
-                    <tr>
-                      <td className="py-3 px-3 font-mono text-blue-300">api.web3forms.com/submit</td>
-                      <td className="py-3 px-3">Relays contact inquiries submitted via Support web page.</td>
-                      <td className="py-3 px-3">Only when user submits web support form.</td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-            </section>
-
-            {/* Section 10: Retention & Deletion */}
-            <section id="retention" className="scroll-mt-24 p-6 sm:p-8 rounded-2xl bg-slate-900/70 border border-slate-800 space-y-4">
-              <div className="flex items-center gap-2 text-blue-400 text-xs font-bold uppercase tracking-wider">
-                <Trash2 className="w-4 h-4" />
-                <span>Section 10</span>
-              </div>
-              <h2 className="text-xl sm:text-2xl font-bold text-white">10. Data Retention and Deletion</h2>
-              <p>
-                You retain complete, perpetual control over your stored data. ProfiVault retains data only for as long as you choose to keep it in the extension:
-              </p>
-
-              <div className="space-y-4 pt-2">
-                <div className="p-4 rounded-xl bg-slate-950/80 border border-slate-800/80 space-y-2">
-                  <h3 className="font-bold text-white text-sm flex items-center gap-2">
-                    <span className="w-2 h-2 rounded-full bg-blue-400" />
-                    Deleting Individual Links
-                  </h3>
-                  <p className="text-xs sm:text-sm text-slate-300">
-                    You can delete any saved link at any time by clicking the trash icon in the popup or options dashboard. Deleting a link instantly and permanently deletes it from <code className="text-xs font-mono text-blue-300 bg-slate-900 px-1 py-0.5 rounded">chrome.storage.local</code>. If cloud sync is active, an immediate <code className="text-xs font-mono text-blue-300 bg-slate-900 px-1 py-0.5 rounded">DELETE /api/links/:id</code> request is dispatched to purge the link from cloud storage as well.
-                  </p>
-                </div>
-
-                <div className="p-4 rounded-xl bg-slate-950/80 border border-slate-800/80 space-y-2">
-                  <h3 className="font-bold text-white text-sm flex items-center gap-2">
-                    <span className="w-2 h-2 rounded-full bg-amber-400" />
-                    Clearing All Local Extension Data
-                  </h3>
-                  <p className="text-xs sm:text-sm text-slate-300">
-                    Inside the Options dashboard under the "Import & Export" or "Settings" tab, clicking "Clear All Data" will invoke <code className="text-xs font-mono text-blue-300 bg-slate-900 px-1 py-0.5 rounded">chrome.storage.local.clear()</code>, which instantly wipes all saved links, preferences, and session data from your browser.
-                  </p>
-                </div>
-
-                <div className="p-4 rounded-xl bg-slate-950/80 border border-slate-800/80 space-y-2">
-                  <h3 className="font-bold text-white text-sm flex items-center gap-2">
-                    <span className="w-2 h-2 rounded-full bg-emerald-400" />
-                    Extension Uninstallation
-                  </h3>
-                  <p className="text-xs sm:text-sm text-slate-300">
-                    If you uninstall or remove ProfiVault from Google Chrome (via <code className="text-xs font-mono text-blue-300 bg-slate-900 px-1 py-0.5 rounded">chrome://extensions</code>), the Chrome browser automatically and irrevocably purges all local storage partitions associated with the extension ID.
-                  </p>
-                </div>
-
-                <div className="p-4 rounded-xl bg-slate-950/80 border border-slate-800/80 space-y-2">
-                  <h3 className="font-bold text-white text-sm flex items-center gap-2">
-                    <span className="w-2 h-2 rounded-full bg-rose-400" />
-                    Cloud Account & Data Deletion
-                  </h3>
-                  <p className="text-xs sm:text-sm text-slate-300">
-                    If you enabled Google Sign-In and wish to completely delete your cloud account and all cloud-synced profile links, you can dispatch an account deletion request (<code className="text-xs font-mono text-blue-300 bg-slate-900 px-1 py-0.5 rounded">DELETE /api/user/account</code>) or email us at <a href={`mailto:${CONFIG.PRIVACY_EMAIL}`} className="text-blue-400 hover:underline">{CONFIG.PRIVACY_EMAIL}</a> with the subject "Data Deletion Request". We permanently delete all account records and cloud-synced links within 30 days of verification.
-                  </p>
-                </div>
-              </div>
-            </section>
-
-            {/* Section 11: Security */}
-            <section id="security" className="scroll-mt-24 p-6 sm:p-8 rounded-2xl bg-slate-900/70 border border-slate-800 space-y-4">
-              <div className="flex items-center gap-2 text-blue-400 text-xs font-bold uppercase tracking-wider">
-                <Lock className="w-4 h-4" />
-                <span>Section 11</span>
-              </div>
-              <h2 className="text-xl sm:text-2xl font-bold text-white">11. Data Security and Encryption</h2>
-              <p>
-                We employ industry-standard technical measures to safeguard your information:
-              </p>
-
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
-                <div className="p-4 rounded-xl bg-slate-950/80 border border-slate-800/80 space-y-2">
-                  <h3 className="font-bold text-white text-sm flex items-center gap-2">
-                    <Lock className="w-4 h-4 text-emerald-400" />
-                    <span>Encryption in Transit</span>
-                  </h3>
-                  <p className="text-xs text-slate-300 leading-relaxed">
-                    All external network communications (Google OAuth identity flows, backend link synchronization, and web support submissions) are strictly transmitted over HTTPS utilizing TLS 1.3 encryption.
-                  </p>
-                </div>
-
-                <div className="p-4 rounded-xl bg-slate-950/80 border border-slate-800/80 space-y-2">
-                  <h3 className="font-bold text-white text-sm flex items-center gap-2">
-                    <ShieldCheck className="w-4 h-4 text-blue-400" />
-                    <span>Browser Sandbox Isolation</span>
-                  </h3>
-                  <p className="text-xs text-slate-300 leading-relaxed">
-                    Data saved in Chrome local storage (<code className="text-xs font-mono text-blue-300">chrome.storage.local</code>) is protected by Google Chrome's strict extension isolation boundaries and cannot be read by third-party web pages or malicious scripts.
-                  </p>
-                </div>
-
-                <div className="p-4 rounded-xl bg-slate-950/80 border border-slate-800/80 space-y-2">
-                  <h3 className="font-bold text-white text-sm flex items-center gap-2">
-                    <Key className="w-4 h-4 text-amber-400" />
-                    <span>Token Authentication</span>
-                  </h3>
-                  <p className="text-xs text-slate-300 leading-relaxed">
-                    Cloud API endpoints require valid, signed JWT authorization headers. No user can view, edit, or delete another user's links.
-                  </p>
-                </div>
-
-                <div className="p-4 rounded-xl bg-slate-950/80 border border-slate-800/80 space-y-2">
-                  <h3 className="font-bold text-white text-sm flex items-center gap-2">
-                    <CheckCircle2 className="w-4 h-4 text-sky-400" />
-                    <span>Principle of Least Privilege</span>
-                  </h3>
-                  <p className="text-xs text-slate-300 leading-relaxed">
-                    ProfiVault declares strictly 3 permissions (<code className="text-xs font-mono text-blue-300">storage</code>, <code className="text-xs font-mono text-blue-300">identity</code>, <code className="text-xs font-mono text-blue-300">clipboardWrite</code>). We do not request broad host permissions, webRequest, or activeTab.
-                  </p>
-                </div>
-              </div>
-            </section>
-
-            {/* Section 12: User Choices & Controls */}
-            <section id="user-choices" className="scroll-mt-24 p-6 sm:p-8 rounded-2xl bg-slate-900/70 border border-slate-800 space-y-4">
-              <div className="flex items-center gap-2 text-blue-400 text-xs font-bold uppercase tracking-wider">
+            <div className="p-4 rounded-xl bg-slate-900/80 border border-slate-800 space-y-1.5">
+              <div className="flex items-center gap-2 text-emerald-400 text-xs font-bold uppercase tracking-wider">
                 <CheckCircle2 className="w-4 h-4" />
-                <span>Section 12</span>
+                <span>Local-First Control</span>
               </div>
-              <h2 className="text-xl sm:text-2xl font-bold text-white">12. User Choices and Controls</h2>
-              <p>
-                ProfiVault provides users with transparent options to govern their privacy:
+              <p className="text-xs text-slate-300 leading-relaxed">
+                Extension data is stored locally in your browser storage. You retain 100% control over deletion.
               </p>
-              <ul className="list-disc pl-5 text-xs sm:text-sm space-y-2 text-slate-300">
-                <li><strong className="text-white">Opting for Local Guest Mode:</strong> You are never required to log in or create an account. You can use all core features (saving, categorizing, sorting, copying, and exporting links) entirely offline.</li>
-                <li><strong className="text-white">Cloud Sync Toggle:</strong> You can toggle cloud synchronization on or off at any time in Settings.</li>
-                <li><strong className="text-white">Data Portability (JSON Backup):</strong> You can export all saved profiles into a clean, human-readable JSON backup file at any time via Options &gt; Import & Export.</li>
-                <li><strong className="text-white">Sign Out & Invalidation:</strong> You can click "Sign Out" at any time to clear your active Google session and invalidate local tokens.</li>
-                <li><strong className="text-white">Instant Data Deletion:</strong> You can selectively delete links or perform a full local data purge whenever you wish.</li>
+            </div>
+
+            <div className="p-4 rounded-xl bg-slate-900/80 border border-slate-800 space-y-1.5">
+              <div className="flex items-center gap-2 text-emerald-400 text-xs font-bold uppercase tracking-wider">
+                <CheckCircle2 className="w-4 h-4" />
+                <span>Direct Contact Only</span>
+              </div>
+              <p className="text-xs text-slate-300 leading-relaxed">
+                Support messages sent via our form are strictly used to reply to your inquiry.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        {/* Quick Table of Contents Bar */}
+        <div className="p-5 rounded-2xl bg-slate-900/60 border border-slate-800 space-y-3">
+          <div className="flex items-center justify-between text-xs font-bold text-slate-300 uppercase tracking-wider">
+            <span className="flex items-center gap-2">
+              <FileText className="w-4 h-4 text-blue-400" />
+              Table of Contents
+            </span>
+            <span className="text-slate-500 font-normal normal-case">16 Sections</span>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2 text-xs">
+            {tableOfContents.map((item) => (
+              <button
+                key={item.id}
+                onClick={() => scrollToSection(item.id)}
+                className={`text-left px-2.5 py-1.5 rounded-lg transition truncate cursor-pointer flex items-center justify-between group ${
+                  activeSection === item.id
+                    ? 'bg-blue-600/20 text-blue-400 font-semibold border border-blue-500/30'
+                    : 'text-slate-400 hover:text-white hover:bg-slate-800/80'
+                }`}
+              >
+                <span className="truncate">{item.title}</span>
+                <ChevronRight className="w-3 h-3 text-slate-600 group-hover:text-blue-400 shrink-0 ml-1" />
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {/* MAIN POLICY SECTIONS */}
+        <div className="space-y-8 text-sm sm:text-base leading-relaxed text-slate-300">
+
+          {/* Section 1: Introduction & Scope */}
+          <section id="intro" className="scroll-mt-24 p-6 sm:p-8 rounded-2xl bg-slate-900/60 border border-slate-800 space-y-4">
+            <div className="flex items-center gap-2 text-blue-400 text-xs font-bold uppercase tracking-wider">
+              <span className="w-2 h-2 rounded-full bg-blue-400"></span>
+              <span>Section 1</span>
+            </div>
+            <h2 className="text-xl sm:text-2xl font-bold text-white">1. Introduction & Scope</h2>
+            
+            <p>
+              Welcome to <strong>ProfiVault</strong>. This Privacy Policy describes how ProfiVault ("we", "us", or "our") 
+              handles information when you visit or interact with our official website at{' '}
+              <a href={CONFIG.SITE_URL} className="text-blue-400 hover:underline font-mono text-xs">
+                {CONFIG.SITE_URL}
+              </a>{' '}
+              ("Website"), as well as when you install and use our companion Chrome browser extension ("Extension") 
+              distributed via the Google Chrome Web Store.
+            </p>
+            <p>
+              We believe in extreme data minimization and honest transparency. We design our software so that your professional links, 
+              portfolio URLs, and career credentials remain under your sovereign control. This policy articulates:
+            </p>
+            <ul className="list-disc pl-5 space-y-1.5 text-slate-300 text-xs sm:text-sm">
+              <li>What information is handled on this Website versus inside the Chrome Extension.</li>
+              <li>The exact technical and operational reasons why any data is processed.</li>
+              <li>How third-party infrastructure providers (such as hosting and contact relay) participate in service delivery.</li>
+              <li>Your rights to view, update, export, and delete your information.</li>
+            </ul>
+          </section>
+
+          {/* Section 2: Information We Collect & Access */}
+          <section id="data-collected" className="scroll-mt-24 p-6 sm:p-8 rounded-2xl bg-slate-900/60 border border-slate-800 space-y-6">
+            <div className="flex items-center gap-2 text-blue-400 text-xs font-bold uppercase tracking-wider">
+              <span className="w-2 h-2 rounded-full bg-blue-400"></span>
+              <span>Section 2</span>
+            </div>
+            <h2 className="text-xl sm:text-2xl font-bold text-white">2. Information We Collect & Access</h2>
+
+            <p>
+              To maintain accuracy, we distinguish strictly between data practices on the <strong>Website</strong> and those within the <strong>Chrome Extension</strong>:
+            </p>
+
+            {/* Category A: Website */}
+            <div className="p-5 rounded-2xl bg-slate-950/80 border border-slate-800/80 space-y-4">
+              <h3 className="text-base font-bold text-white flex items-center gap-2">
+                <Globe className="w-4 h-4 text-blue-400" />
+                A. Website Data Practices (profivaultweb.vercel.app)
+              </h3>
+              <div className="space-y-3 text-xs sm:text-sm text-slate-300">
+                <div className="space-y-1">
+                  <strong className="text-white">1. Voluntary Support & Contact Inquiries:</strong>
+                  <p>
+                    When you voluntarily submit a message through our Website Support Hub (<code className="font-mono text-blue-300">/support</code>), 
+                    we collect your <em>email address</em>, <em>subject line</em>, and the <em>message content</em> you enter. 
+                    This information is provided voluntarily by you to receive technical support, bug reports, or product inquiries.
+                  </p>
+                </div>
+
+                <div className="space-y-1">
+                  <strong className="text-white">2. Server Logs & Network Diagnostics:</strong>
+                  <p>
+                    When you load our Website, our hosting provider (<a href="https://vercel.com" target="_blank" rel="noopener noreferrer" className="text-blue-400 hover:underline">Vercel Inc.</a>) 
+                    automatically processes standard web server request information, including your IP address, browser user-agent string, operating system, 
+                    requested URL paths, and request timestamps. This processing is technically indispensable to route internet packets, establish secure TLS connections, 
+                    and mitigate DDoS attacks.
+                  </p>
+                </div>
+
+                <div className="space-y-1">
+                  <strong className="text-white">3. Third-Party Font Requests:</strong>
+                  <p>
+                    Our Website loads typography stylesheets from Google Fonts (<code className="font-mono text-blue-300">fonts.googleapis.com</code>). 
+                    When your browser requests font assets, Google receives standard HTTP request headers and your IP address as necessary to deliver the font files.
+                  </p>
+                </div>
+
+                <div className="space-y-1">
+                  <strong className="text-white">4. Interactive Demo Simulator (Ephemeral Memory):</strong>
+                  <p>
+                    Our Website features an interactive simulation of the extension popup. If you test the "Add" or "Search" functions in the simulator, 
+                    the sample links exist <strong>strictly within your browser's temporary React component state (in-memory)</strong>. 
+                    They are never sent across the network, never written to a database, and are immediately destroyed when you refresh or close the page.
+                  </p>
+                </div>
+
+                <div className="space-y-1">
+                  <strong className="text-white">5. Clipboard Demonstration on the Website:</strong>
+                  <p>
+                    When you click the "Copy" simulation button in our interactive demo, the Website invokes the standard browser API{' '}
+                    (<code className="font-mono text-blue-300">navigator.clipboard.writeText</code>) strictly to write that sample link URL to your clipboard. 
+                    The Website <strong>never reads</strong> or accesses existing clipboard contents.
+                  </p>
+                </div>
+
+                <div className="space-y-1">
+                  <strong className="text-rose-300">What the Website NEVER Collects:</strong>
+                  <p>
+                    The Website does <strong>not</strong> require user registration, does <strong>not</strong> collect passwords, 
+                    does <strong>not</strong> process payments or financial data, and does <strong>not</strong> deploy behavioural ad trackers.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* Category B: Chrome Extension */}
+            <div className="p-5 rounded-2xl bg-slate-950/80 border border-slate-800/80 space-y-4">
+              <h3 className="text-base font-bold text-white flex items-center gap-2">
+                <Cpu className="w-4 h-4 text-emerald-400" />
+                B. Chrome Extension Data Practices
+              </h3>
+              <p className="text-xs sm:text-sm text-slate-300">
+                For users who install the ProfiVault Chrome extension from the Chrome Web Store:
+              </p>
+              <ul className="list-disc pl-5 space-y-2 text-xs sm:text-sm text-slate-300">
+                <li>
+                  <strong className="text-white">User-Saved Profile Links:</strong> Profile titles, URLs (e.g. LinkedIn, GitHub, portfolio, resume, LeetCode, CodeChef), 
+                  and user-assigned categories are stored directly on your machine in Chrome's sandboxed local storage (<code className="font-mono text-blue-300">chrome.storage.local</code>).
+                </li>
+                <li>
+                  <strong className="text-white">Optional Google Authentication:</strong> If Google Sign-In is enabled in your extension version, 
+                  the extension utilizes the Chrome Identity API (<code className="font-mono text-blue-300">chrome.identity</code>) to authenticate your Google profile 
+                  and link your account settings. ProfiVault never accesses your Gmail messages, Google Drive files, or contacts.
+                </li>
+                <li>
+                  <strong className="text-white">Clipboard Permission (clipboardWrite):</strong> Used solely when you click "Copy" next to a saved link 
+                  to copy that individual URL to your system clipboard. The extension does not read clipboard contents.
+                </li>
               </ul>
-            </section>
+            </div>
 
-            {/* Section 13: Children's Privacy */}
-            <section id="children" className="scroll-mt-24 p-6 sm:p-8 rounded-2xl bg-slate-900/70 border border-slate-800 space-y-4">
-              <div className="flex items-center gap-2 text-blue-400 text-xs font-bold uppercase tracking-wider">
-                <ShieldCheck className="w-4 h-4" />
-                <span>Section 13</span>
+            {/* Structured Inventory Table */}
+            <div className="overflow-x-auto">
+              <table className="w-full text-left text-xs border border-slate-800 rounded-xl overflow-hidden">
+                <thead className="bg-slate-900 text-slate-200 uppercase font-semibold border-b border-slate-800">
+                  <tr>
+                    <th className="p-3">Data Category</th>
+                    <th className="p-3">Source & Context</th>
+                    <th className="p-3">Storage Location</th>
+                    <th className="p-3">Transmitted To</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-slate-800/60 text-slate-300">
+                  <tr className="bg-slate-950/40">
+                    <td className="p-3 font-medium text-white">Support Email & Message</td>
+                    <td className="p-3">User submitted via /support form</td>
+                    <td className="p-3 font-mono text-[11px]">Developer Support Inbox</td>
+                    <td className="p-3">Web3Forms API &gt; Support Mailbox</td>
+                  </tr>
+                  <tr>
+                    <td className="p-3 font-medium text-white">Server Access Logs (IP, User-Agent)</td>
+                    <td className="p-3">Automatic HTTP request handling</td>
+                    <td className="p-3 font-mono text-[11px]">Vercel Edge CDN Logs</td>
+                    <td className="p-3">Vercel Inc. (Infrastructure only)</td>
+                  </tr>
+                  <tr className="bg-slate-950/40">
+                    <td className="p-3 font-medium text-white">Font Asset Requests</td>
+                    <td className="p-3">Browser fetching Google Fonts</td>
+                    <td className="p-3 font-mono text-[11px]">Not stored by ProfiVault</td>
+                    <td className="p-3">Google LLC (Fonts CDN)</td>
+                  </tr>
+                  <tr>
+                    <td className="p-3 font-medium text-white">Demo Simulator Links</td>
+                    <td className="p-3">Testing interactive demo on Website</td>
+                    <td className="p-3 font-mono text-[11px]">Temporary Browser RAM only</td>
+                    <td className="p-3 text-emerald-400 font-semibold">None (Never transmitted)</td>
+                  </tr>
+                  <tr className="bg-slate-950/40">
+                    <td className="p-3 font-medium text-white">Extension Saved Links</td>
+                    <td className="p-3">Saved in Chrome extension popup</td>
+                    <td className="p-3 font-mono text-[11px]">chrome.storage.local</td>
+                    <td className="p-3">Local browser (or synced account if enabled)</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </section>
+
+          {/* Section 3: How & Why We Use Information */}
+          <section id="how-we-use" className="scroll-mt-24 p-6 sm:p-8 rounded-2xl bg-slate-900/60 border border-slate-800 space-y-4">
+            <div className="flex items-center gap-2 text-blue-400 text-xs font-bold uppercase tracking-wider">
+              <span className="w-2 h-2 rounded-full bg-blue-400"></span>
+              <span>Section 3</span>
+            </div>
+            <h2 className="text-xl sm:text-2xl font-bold text-white">3. How & Why We Use Your Information</h2>
+
+            <p>
+              We process information solely for specific, legitimate, and transparent purposes:
+            </p>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-2">
+              <div className="p-4 rounded-xl bg-slate-950/80 border border-slate-800 space-y-1.5">
+                <h4 className="text-sm font-bold text-white flex items-center gap-2">
+                  <Mail className="w-4 h-4 text-blue-400" />
+                  Responding to Support Inquiries
+                </h4>
+                <p className="text-xs text-slate-300 leading-relaxed">
+                  When you write to us, we use your email address and message content exclusively to troubleshoot bugs, 
+                  answer questions, and provide customer support.
+                </p>
               </div>
-              <h2 className="text-xl sm:text-2xl font-bold text-white">13. Children’s Privacy</h2>
-              <p>
-                ProfiVault is designed as a productivity tool for job seekers, college and university students, developers, and working professionals. It is not intended for or targeted at children under the age of 13 (or under 16 in the European Union).
-              </p>
-              <p>
-                We do not knowingly solicit, collect, or store personal information from children under 13. If you believe a child has provided us with personal information, please contact us at <a href={`mailto:${CONFIG.PRIVACY_EMAIL}`} className="text-blue-400 hover:underline">{CONFIG.PRIVACY_EMAIL}</a>, and we will promptly delete such information.
-              </p>
-            </section>
 
-            {/* Section 14: Changes to Policy */}
-            <section id="changes" className="scroll-mt-24 p-6 sm:p-8 rounded-2xl bg-slate-900/70 border border-slate-800 space-y-4">
-              <div className="flex items-center gap-2 text-blue-400 text-xs font-bold uppercase tracking-wider">
-                <Clock className="w-4 h-4" />
-                <span>Section 14</span>
-              </div>
-              <h2 className="text-xl sm:text-2xl font-bold text-white">14. Changes to This Privacy Policy</h2>
-              <p>
-                We may periodically update this Privacy Policy to reflect improvements in our extension, operational practices, or regulatory requirements. Any modifications will be posted directly to this publicly accessible page (<a href={`${CONFIG.SITE_URL}/privacy`} className="text-blue-400 hover:underline">{CONFIG.SITE_URL}/privacy</a>) with a revised "Last Updated" date at the top of the document.
-              </p>
-              <p>
-                For significant changes that affect user data practices, we will provide prominent notification within the Chrome extension dashboard or through update release notes. We encourage you to review this page periodically.
-              </p>
-            </section>
-
-            {/* Section 15: Developer Contact Info */}
-            <section id="contact" className="scroll-mt-24 p-6 sm:p-8 rounded-2xl bg-gradient-to-br from-blue-950/40 via-slate-900/80 to-slate-950 border border-blue-900/50 space-y-5">
-              <div className="flex items-center gap-2 text-blue-400 text-xs font-bold uppercase tracking-wider">
-                <Mail className="w-4 h-4" />
-                <span>Section 15</span>
-              </div>
-              <h2 className="text-xl sm:text-2xl font-bold text-white">15. Developer Contact Information</h2>
-              <p className="text-sm text-slate-300">
-                If you have questions, feedback, compliance inquiries, or wish to exercise your data rights regarding this Privacy Policy or the ProfiVault Chrome extension, please contact the developer team:
-              </p>
-
-              <div className="p-5 rounded-2xl bg-slate-950/90 border border-slate-800 space-y-3 font-mono text-xs text-slate-300">
-                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1 border-b border-slate-800/80 pb-2">
-                  <span className="text-slate-500 font-sans font-semibold">Extension Name:</span>
-                  <span className="text-white font-sans">{CONFIG.PRODUCT_NAME} – Fast Profile Link Copier</span>
-                </div>
-                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1 border-b border-slate-800/80 pb-2">
-                  <span className="text-slate-500 font-sans font-semibold">Chrome Extension ID:</span>
-                  <span className="text-blue-400">bkbmplkfckpkjkjkmeipomiklhdbfobo</span>
-                </div>
-                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1 border-b border-slate-800/80 pb-2">
-                  <span className="text-slate-500 font-sans font-semibold">Support Contact:</span>
-                  <a href={`mailto:${CONFIG.SUPPORT_EMAIL}`} className="text-blue-400 hover:underline">{CONFIG.SUPPORT_EMAIL}</a>
-                </div>
-                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1 border-b border-slate-800/80 pb-2">
-                  <span className="text-slate-500 font-sans font-semibold">Privacy & Legal Inquiries:</span>
-                  <a href={`mailto:${CONFIG.PRIVACY_EMAIL}`} className="text-blue-400 hover:underline">{CONFIG.PRIVACY_EMAIL}</a>
-                </div>
-                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1 border-b border-slate-800/80 pb-2">
-                  <span className="text-slate-500 font-sans font-semibold">Official Website:</span>
-                  <a href={CONFIG.SITE_URL} target="_blank" rel="noopener noreferrer" className="text-blue-400 hover:underline">{CONFIG.SITE_URL}</a>
-                </div>
-                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1">
-                  <span className="text-slate-500 font-sans font-semibold">Public Privacy Policy URL:</span>
-                  <a href={`${CONFIG.SITE_URL}/privacy`} target="_blank" rel="noopener noreferrer" className="text-blue-400 hover:underline">{CONFIG.SITE_URL}/privacy</a>
-                </div>
+              <div className="p-4 rounded-xl bg-slate-950/80 border border-slate-800 space-y-1.5">
+                <h4 className="text-sm font-bold text-white flex items-center gap-2">
+                  <Server className="w-4 h-4 text-sky-400" />
+                  Infrastructure Security & Uptime
+                </h4>
+                <p className="text-xs text-slate-300 leading-relaxed">
+                  Server access logs are evaluated to ensure site availability, detect malicious bots, prevent distributed 
+                  denial of service (DDoS) traffic, and resolve performance bottlenecks.
+                </p>
               </div>
 
-              <div className="pt-2 flex flex-wrap items-center gap-4">
-                <button
-                  onClick={() => onNavigate('/support')}
-                  className="px-5 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-semibold text-xs sm:text-sm transition cursor-pointer shadow-md shadow-blue-500/20"
-                >
-                  Visit Support Center
-                </button>
-                <button
-                  onClick={() => onNavigate('/')}
-                  className="px-5 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 font-semibold text-xs sm:text-sm transition cursor-pointer"
-                >
-                  Return to Home
-                </button>
+              <div className="p-4 rounded-xl bg-slate-950/80 border border-slate-800 space-y-1.5">
+                <h4 className="text-sm font-bold text-white flex items-center gap-2">
+                  <Copy className="w-4 h-4 text-emerald-400" />
+                  Interactive Simulator Functionality
+                </h4>
+                <p className="text-xs text-slate-300 leading-relaxed">
+                  Inputs entered into the website simulator enable live preview testing of link addition, category filtering, 
+                  and clipboard copy workflows without requiring any account creation.
+                </p>
               </div>
-            </section>
 
-          </main>
+              <div className="p-4 rounded-xl bg-slate-950/80 border border-slate-800 space-y-1.5">
+                <h4 className="text-sm font-bold text-white flex items-center gap-2">
+                  <ShieldCheck className="w-4 h-4 text-amber-400" />
+                  Legal Compliance & Integrity
+                </h4>
+                <p className="text-xs text-slate-300 leading-relaxed">
+                  To comply with applicable laws, verify intellectual property notices, prevent abuse, and enforce our 
+                  Terms of Service.
+                </p>
+              </div>
+            </div>
+
+            <div className="p-4 rounded-xl bg-blue-950/30 border border-blue-800/40 text-xs text-blue-300">
+              <strong className="text-white">Legal Bases under GDPR / UK GDPR: </strong>
+              We process support inquiries based on <em>performance of a contract or legitimate interest</em> (to provide requested assistance), 
+              and server logs based on our <em>legitimate interest</em> in ensuring the cyber security, operational integrity, 
+              and reliability of our online service.
+            </div>
+          </section>
+
+          {/* Section 4: Data Storage, Architecture & Processing */}
+          <section id="storage-architecture" className="scroll-mt-24 p-6 sm:p-8 rounded-2xl bg-slate-900/60 border border-slate-800 space-y-4">
+            <div className="flex items-center gap-2 text-blue-400 text-xs font-bold uppercase tracking-wider">
+              <span className="w-2 h-2 rounded-full bg-blue-400"></span>
+              <span>Section 4</span>
+            </div>
+            <h2 className="text-xl sm:text-2xl font-bold text-white">4. Data Storage, Architecture & Processing Locations</h2>
+
+            <p>
+              Understanding where your data lives is critical to evaluating security and privacy:
+            </p>
+
+            <ul className="list-disc pl-5 space-y-3 text-xs sm:text-sm text-slate-300">
+              <li>
+                <strong className="text-white">Static Application Delivery (Vercel): </strong>
+                The Website is built with React, Vite, and Tailwind CSS and compiled into an optimized static bundle. 
+                It is hosted on the Vercel Edge Network, which routes requests to servers globally distributed across North America, 
+                Europe, and Asia for low-latency delivery.
+              </li>
+              <li>
+                <strong className="text-white">Absence of Website Database: </strong>
+                This Website repository contains <strong>no persistent application database</strong> (such as MongoDB, PostgreSQL, Firebase, or Supabase). 
+                We do not maintain user profile records, tracking tables, or session stores on our website hosting environment.
+              </li>
+              <li>
+                <strong className="text-white">Contact Form Relay (Web3Forms): </strong>
+                When you submit a support ticket via <code className="font-mono text-blue-300">/support</code>, the payload is transmitted over encrypted HTTPS 
+                to <code className="font-mono text-blue-300">https://api.web3forms.com/submit</code>. Web3Forms acts as an email routing processor, forwarding the 
+                submission to our verified administrator email inbox (<span className="text-blue-300 font-mono">{CONFIG.SUPPORT_EMAIL}</span>).
+              </li>
+              <li>
+                <strong className="text-white">Browser Storage Isolation: </strong>
+                The Website does not read or write data to browser <code className="font-mono text-blue-300">localStorage</code>, <code className="font-mono text-blue-300">sessionStorage</code>, or <code className="font-mono text-blue-300">IndexedDB</code>. 
+                All simulator link state is ephemeral and retained only in volatile component memory during your active tab session.
+              </li>
+            </ul>
+          </section>
+
+          {/* Section 5: Authentication & Account Information */}
+          <section id="auth-accounts" className="scroll-mt-24 p-6 sm:p-8 rounded-2xl bg-slate-900/60 border border-slate-800 space-y-4">
+            <div className="flex items-center gap-2 text-blue-400 text-xs font-bold uppercase tracking-wider">
+              <span className="w-2 h-2 rounded-full bg-blue-400"></span>
+              <span>Section 5</span>
+            </div>
+            <h2 className="text-xl sm:text-2xl font-bold text-white">5. Authentication & Account Management</h2>
+
+            <p>
+              <strong>On the Website:</strong> There is <strong>no account registration, user login, or password creation</strong>. 
+              You can access every page, guide, FAQ item, and demonstration tool freely and anonymously without creating an account or authenticating.
+            </p>
+            <p>
+              <strong>In the Chrome Extension:</strong> You can use ProfiVault in guest mode without logging in. 
+              If you optionally choose to sign in with your Google account in the extension build, authentication is handled via official 
+              Google OAuth (<code className="font-mono text-blue-300">chrome.identity</code>). ProfiVault only obtains basic identity tokens 
+              necessary to authenticate your session and does not access private Google service content (such as email messages or documents).
+            </p>
+          </section>
+
+          {/* Section 6: Cookies & Browser Storage Technologies */}
+          <section id="cookies-storage" className="scroll-mt-24 p-6 sm:p-8 rounded-2xl bg-slate-900/60 border border-slate-800 space-y-4">
+            <div className="flex items-center gap-2 text-blue-400 text-xs font-bold uppercase tracking-wider">
+              <span className="w-2 h-2 rounded-full bg-blue-400"></span>
+              <span>Section 6</span>
+            </div>
+            <h2 className="text-xl sm:text-2xl font-bold text-white">6. Cookies & Browser Storage Technologies</h2>
+
+            <div className="p-4 rounded-xl bg-slate-950/90 border border-slate-800 space-y-3">
+              <div className="flex items-center gap-2 text-emerald-400 text-sm font-bold">
+                <Cookie className="w-4 h-4" />
+                <span>Zero Cookie Tracking Guarantee</span>
+              </div>
+              <p className="text-xs sm:text-sm text-slate-300">
+                The ProfiVault Website does <strong>not</strong> set first-party cookies or third-party advertising cookies 
+                (<code className="font-mono text-blue-300">document.cookie</code> is never invoked). We do not utilize Google Analytics, 
+                Meta Pixels, Hotjar, or similar cookie-based fingerprinting or session tracking scripts.
+              </p>
+            </div>
+
+            <p className="text-xs sm:text-sm text-slate-300">
+              Technical HTTP caching headers and standard edge caching mechanisms (such as <code className="font-mono text-blue-300">Cache-Control</code> and <code className="font-mono text-blue-300">ETag</code>) 
+              may be utilized by Vercel's CDN to optimize load speeds for static images and scripts, but these do not track user identities.
+            </p>
+          </section>
+
+          {/* Section 7: Third-Party Services & Integrations */}
+          <section id="third-parties" className="scroll-mt-24 p-6 sm:p-8 rounded-2xl bg-slate-900/60 border border-slate-800 space-y-6">
+            <div className="flex items-center gap-2 text-blue-400 text-xs font-bold uppercase tracking-wider">
+              <span className="w-2 h-2 rounded-full bg-blue-400"></span>
+              <span>Section 7</span>
+            </div>
+            <h2 className="text-xl sm:text-2xl font-bold text-white">7. Third-Party Services & Integrations</h2>
+
+            <p>
+              In accordance with our commitment to transparency, here is the comprehensive inventory of all third-party services verified in our codebase:
+            </p>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="p-5 rounded-2xl bg-slate-950/80 border border-slate-800 space-y-2">
+                <div className="flex items-center justify-between">
+                  <h3 className="font-bold text-white text-sm">Vercel Inc.</h3>
+                  <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-blue-500/10 text-blue-300 border border-blue-500/20">
+                    Hosting & CDN
+                  </span>
+                </div>
+                <p className="text-xs text-slate-300 leading-relaxed">
+                  <strong>Role:</strong> Hosts and serves our compiled static Single Page Application (SPA), routes domain requests, terminates SSL, and maintains standard server access logs.
+                </p>
+                <p className="text-[11px] text-slate-400">
+                  Privacy Policy:{' '}
+                  <a href="https://vercel.com/legal/privacy-policy" target="_blank" rel="noopener noreferrer" className="text-blue-400 hover:underline inline-flex items-center gap-0.5">
+                    vercel.com/legal/privacy-policy <ExternalLink className="w-2.5 h-2.5" />
+                  </a>
+                </p>
+              </div>
+
+              <div className="p-5 rounded-2xl bg-slate-950/80 border border-slate-800 space-y-2">
+                <div className="flex items-center justify-between">
+                  <h3 className="font-bold text-white text-sm">Web3Forms</h3>
+                  <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-sky-500/10 text-sky-300 border border-sky-500/20">
+                    Contact Form Relay
+                  </span>
+                </div>
+                <p className="text-xs text-slate-300 leading-relaxed">
+                  <strong>Role:</strong> Receives form submissions from <code className="font-mono text-blue-300">/support</code> via API and relays the message and sender email directly to our support inbox.
+                </p>
+                <p className="text-[11px] text-slate-400">
+                  Privacy Policy:{' '}
+                  <a href="https://web3forms.com/privacy" target="_blank" rel="noopener noreferrer" className="text-blue-400 hover:underline inline-flex items-center gap-0.5">
+                    web3forms.com/privacy <ExternalLink className="w-2.5 h-2.5" />
+                  </a>
+                </p>
+              </div>
+
+              <div className="p-5 rounded-2xl bg-slate-950/80 border border-slate-800 space-y-2">
+                <div className="flex items-center justify-between">
+                  <h3 className="font-bold text-white text-sm">Google Fonts (Google LLC)</h3>
+                  <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-300 border border-emerald-500/20">
+                    Typography Asset
+                  </span>
+                </div>
+                <p className="text-xs text-slate-300 leading-relaxed">
+                  <strong>Role:</strong> Provides web fonts (Inter, Plus Jakarta Sans, JetBrains Mono) referenced in <code className="font-mono text-blue-300">index.html</code>. When fetched, Google receives standard client HTTP request headers.
+                </p>
+                <p className="text-[11px] text-slate-400">
+                  Privacy Policy:{' '}
+                  <a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer" className="text-blue-400 hover:underline inline-flex items-center gap-0.5">
+                    policies.google.com/privacy <ExternalLink className="w-2.5 h-2.5" />
+                  </a>
+                </p>
+              </div>
+
+              <div className="p-5 rounded-2xl bg-slate-950/80 border border-slate-800 space-y-2">
+                <div className="flex items-center justify-between">
+                  <h3 className="font-bold text-white text-sm">Chrome Web Store (Google LLC)</h3>
+                  <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-indigo-500/10 text-indigo-300 border border-indigo-500/20">
+                    Extension Distribution
+                  </span>
+                </div>
+                <p className="text-xs text-slate-300 leading-relaxed">
+                  <strong>Role:</strong> Hosts the official Chrome extension listing. When you click "Get ProfiVault", you navigate to Google's official store platform under Google's terms.
+                </p>
+                <p className="text-[11px] text-slate-400">
+                  Store Listing:{' '}
+                  <a href={CONFIG.CHROME_WEB_STORE_URL} target="_blank" rel="noopener noreferrer" className="text-blue-400 hover:underline inline-flex items-center gap-0.5">
+                    Chrome Web Store <ExternalLink className="w-2.5 h-2.5" />
+                  </a>
+                </p>
+              </div>
+            </div>
+
+            <div className="p-4 rounded-xl bg-slate-900 border border-slate-800 text-xs text-slate-300 flex items-start gap-3">
+              <EyeOff className="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" />
+              <div>
+                <strong className="text-white">Services Not Used: </strong>
+                We do NOT integrate advertising networks, tracking SDKs (e.g., Google Tag Manager, Facebook Pixel), 
+                payment processors on the website, or behavioural session replay tools.
+              </div>
+            </div>
+          </section>
+
+          {/* Section 8: Data Sharing & Disclosure */}
+          <section id="data-sharing" className="scroll-mt-24 p-6 sm:p-8 rounded-2xl bg-slate-900/60 border border-slate-800 space-y-4">
+            <div className="flex items-center gap-2 text-blue-400 text-xs font-bold uppercase tracking-wider">
+              <span className="w-2 h-2 rounded-full bg-blue-400"></span>
+              <span>Section 8</span>
+            </div>
+            <h2 className="text-xl sm:text-2xl font-bold text-white">8. Data Sharing & Disclosure</h2>
+
+            <p>
+              <strong>We do not sell, rent, monetize, or trade your personal information or profile links under any circumstances.</strong>
+            </p>
+            <p>
+              We disclose information only under the following strictly defined conditions:
+            </p>
+            <ul className="list-disc pl-5 space-y-2 text-xs sm:text-sm text-slate-300">
+              <li>
+                <strong className="text-white">Service Providers: </strong>
+                To trusted infrastructure providers (Vercel for hosting, Web3Forms for support form relay) strictly to the extent 
+                necessary to execute their contracted services on our behalf.
+              </li>
+              <li>
+                <strong className="text-white">Legal Obligations: </strong>
+                If required to do so by applicable law, court order, subpoena, or lawful government regulation.
+              </li>
+              <li>
+                <strong className="text-white">Protection of Rights & Safety: </strong>
+                When necessary to enforce our Terms of Service, defend against legal claims, or protect the security, integrity, and safety 
+                of our users, website, or the public.
+              </li>
+            </ul>
+          </section>
+
+          {/* Section 9: Data Retention Practices */}
+          <section id="retention" className="scroll-mt-24 p-6 sm:p-8 rounded-2xl bg-slate-900/60 border border-slate-800 space-y-4">
+            <div className="flex items-center gap-2 text-blue-400 text-xs font-bold uppercase tracking-wider">
+              <span className="w-2 h-2 rounded-full bg-blue-400"></span>
+              <span>Section 9</span>
+            </div>
+            <h2 className="text-xl sm:text-2xl font-bold text-white">9. Data Retention Practices</h2>
+
+            <p>
+              We retain data only as long as necessary for the operational purpose for which it was received:
+            </p>
+
+            <div className="space-y-3 pt-2 text-xs sm:text-sm">
+              <div className="p-3.5 rounded-xl bg-slate-950/70 border border-slate-800 flex items-start gap-3">
+                <Clock className="w-4 h-4 text-blue-400 shrink-0 mt-0.5" />
+                <div>
+                  <strong className="text-white">Customer Support Communications: </strong>
+                  <span>
+                    Emails received via our support form or direct mail are retained in our support email inbox for as long as needed 
+                    to resolve the inquiry and maintain continuity of customer service, or until you request deletion.
+                  </span>
+                </div>
+              </div>
+
+              <div className="p-3.5 rounded-xl bg-slate-950/70 border border-slate-800 flex items-start gap-3">
+                <Server className="w-4 h-4 text-sky-400 shrink-0 mt-0.5" />
+                <div>
+                  <strong className="text-white">Web Server Diagnostics: </strong>
+                  <span>
+                    Server access logs generated by Vercel are retained in accordance with Vercel's standard operational data policies 
+                    (typically up to 30 days) and are subsequently purged automatically.
+                  </span>
+                </div>
+              </div>
+
+              <div className="p-3.5 rounded-xl bg-slate-950/70 border border-slate-800 flex items-start gap-3">
+                <HardDrive className="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" />
+                <div>
+                  <strong className="text-white">Interactive Demo Simulator: </strong>
+                  <span className="text-emerald-300 font-semibold">Zero seconds. </span>
+                  <span>
+                    Simulator entries are strictly stored in temporary browser memory. When the page is refreshed or navigated away from, 
+                    all simulator data is instantly cleared.
+                  </span>
+                </div>
+              </div>
+
+              <div className="p-3.5 rounded-xl bg-slate-950/70 border border-slate-800 flex items-start gap-3">
+                <Database className="w-4 h-4 text-indigo-400 shrink-0 mt-0.5" />
+                <div>
+                  <strong className="text-white">Chrome Extension Saved Links: </strong>
+                  <span>
+                    Stored in local Chrome extension storage (<code className="font-mono text-blue-300">chrome.storage.local</code>) 
+                    for as long as the user retains the link or keeps the extension installed.
+                  </span>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          {/* Section 10: Access, Correction & Deletion (User Rights) */}
+          <section id="user-rights" className="scroll-mt-24 p-6 sm:p-8 rounded-2xl bg-slate-900/60 border border-slate-800 space-y-4">
+            <div className="flex items-center gap-2 text-blue-400 text-xs font-bold uppercase tracking-wider">
+              <span className="w-2 h-2 rounded-full bg-blue-400"></span>
+              <span>Section 10</span>
+            </div>
+            <h2 className="text-xl sm:text-2xl font-bold text-white">10. Access, Correction & Deletion (Your Rights)</h2>
+
+            <p>
+              You maintain sovereign authority over your personal information and saved content:
+            </p>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-2 text-xs sm:text-sm">
+              <div className="p-4 rounded-xl bg-slate-950/80 border border-slate-800 space-y-2">
+                <h4 className="font-bold text-white flex items-center gap-2">
+                  <UserCheck className="w-4 h-4 text-emerald-400" />
+                  Website Support Records Deletion
+                </h4>
+                <p className="text-slate-300 leading-relaxed">
+                  If you previously sent us a support ticket or inquiry and wish to review, correct, or permanently delete 
+                  the email record from our inbox, email us at{' '}
+                  <span className="text-blue-400 font-mono">{CONFIG.PRIVACY_EMAIL}</span>. We will process and confirm your request promptly.
+                </p>
+              </div>
+
+              <div className="p-4 rounded-xl bg-slate-950/80 border border-slate-800 space-y-2">
+                <h4 className="font-bold text-white flex items-center gap-2">
+                  <HardDrive className="w-4 h-4 text-blue-400" />
+                  Chrome Extension Data Deletion
+                </h4>
+                <p className="text-slate-300 leading-relaxed">
+                  You can edit, categorize, or delete individual links anytime from the extension popup. To delete 100% of local 
+                  storage entries immediately, simply uninstall the extension from <code className="font-mono text-blue-300">chrome://extensions</code>.
+                </p>
+              </div>
+            </div>
+          </section>
+
+          {/* Section 11: Security Practices */}
+          <section id="security" className="scroll-mt-24 p-6 sm:p-8 rounded-2xl bg-slate-900/60 border border-slate-800 space-y-4">
+            <div className="flex items-center gap-2 text-blue-400 text-xs font-bold uppercase tracking-wider">
+              <span className="w-2 h-2 rounded-full bg-blue-400"></span>
+              <span>Section 11</span>
+            </div>
+            <h2 className="text-xl sm:text-2xl font-bold text-white">11. Security Practices & Safeguards</h2>
+
+            <p>
+              We implement comprehensive technical safeguards designed to protect our users and systems:
+            </p>
+
+            <ul className="list-disc pl-5 space-y-2 text-xs sm:text-sm text-slate-300">
+              <li>
+                <strong className="text-white">Strict HTTPS Encryption: </strong>
+                All web traffic to and from <code className="font-mono text-blue-300">{CONFIG.SITE_URL}</code> is strictly encrypted 
+                in transit using modern Transport Layer Security (TLS/HTTPS) certificates managed automatically by Vercel.
+              </li>
+              <li>
+                <strong className="text-white">Minimalist Attack Surface: </strong>
+                Because our Website does not store user account credentials, credit card details, or a backend database, 
+                risks associated with database exfiltration and credential stuffing attacks are eliminated at an architectural level.
+              </li>
+              <li>
+                <strong className="text-white">API Key Security: </strong>
+                Our support form uses a restricted client-side access key through Web3Forms configured strictly to deliver messages 
+                to our verified domain destination.
+              </li>
+              <li>
+                <strong className="text-white">Content Security & Modern Tooling: </strong>
+                Our build chain uses TypeScript and modern React, preventing common cross-site scripting (XSS) vectors.
+              </li>
+            </ul>
+          </section>
+
+          {/* Section 12: Children's Privacy */}
+          <section id="children" className="scroll-mt-24 p-6 sm:p-8 rounded-2xl bg-slate-900/60 border border-slate-800 space-y-4">
+            <div className="flex items-center gap-2 text-blue-400 text-xs font-bold uppercase tracking-wider">
+              <span className="w-2 h-2 rounded-full bg-blue-400"></span>
+              <span>Section 12</span>
+            </div>
+            <h2 className="text-xl sm:text-2xl font-bold text-white">12. Children's Privacy</h2>
+
+            <p>
+              ProfiVault is designed as a professional productivity tool for job seekers, university students, software developers, 
+              and working professionals. Our service is not directed to children under 13 years of age (or under 16 in the European Economic Area).
+            </p>
+            <p>
+              We do not knowingly solicit or collect personal information from children. If you believe that a child has provided us 
+              with personal information via our contact form, please notify us immediately at{' '}
+              <a href={`mailto:${CONFIG.PRIVACY_EMAIL}`} className="text-blue-400 hover:underline font-mono">
+                {CONFIG.PRIVACY_EMAIL}
+              </a>, and we will promptly delete that information from our records.
+            </p>
+          </section>
+
+          {/* Section 13: International Data Transfers */}
+          <section id="transfers" className="scroll-mt-24 p-6 sm:p-8 rounded-2xl bg-slate-900/60 border border-slate-800 space-y-4">
+            <div className="flex items-center gap-2 text-blue-400 text-xs font-bold uppercase tracking-wider">
+              <span className="w-2 h-2 rounded-full bg-blue-400"></span>
+              <span>Section 13</span>
+            </div>
+            <h2 className="text-xl sm:text-2xl font-bold text-white">13. International Data Transfers</h2>
+
+            <p>
+              Our Website is hosted on infrastructure operated by Vercel Inc., with edge servers located in the United States and globally. 
+              If you access our Website from the European Economic Area (EEA), the United Kingdom, Switzerland, or other regions with 
+              data protection laws differing from United States law, please note that information necessary to deliver web traffic 
+              and contact messages may be transferred to and processed in countries where our service providers maintain facilities.
+            </p>
+            <p>
+              Our service providers adhere to industry-standard data protection safeguards and compliance frameworks for cross-border data routing.
+            </p>
+          </section>
+
+          {/* Section 14: Regulatory Disclosures (GDPR & CCPA) */}
+          <section id="regulatory" className="scroll-mt-24 p-6 sm:p-8 rounded-2xl bg-slate-900/60 border border-slate-800 space-y-4">
+            <div className="flex items-center gap-2 text-blue-400 text-xs font-bold uppercase tracking-wider">
+              <span className="w-2 h-2 rounded-full bg-blue-400"></span>
+              <span>Section 14</span>
+            </div>
+            <h2 className="text-xl sm:text-2xl font-bold text-white">14. Do Not Track & Regulatory Rights (GDPR & CCPA/CPRA)</h2>
+
+            <div className="space-y-3 text-xs sm:text-sm">
+              <div className="p-4 rounded-xl bg-slate-950/80 border border-slate-800 space-y-1.5">
+                <strong className="text-white">Do Not Track (DNT) & Global Privacy Control (GPC):</strong>
+                <p className="text-slate-300">
+                  Because ProfiVault does not track visitors across third-party websites or engage in behavioral advertising, 
+                  our systems inherently fulfill the intent of browser Do Not Track and Global Privacy Control signals.
+                </p>
+              </div>
+
+              <div className="p-4 rounded-xl bg-slate-950/80 border border-slate-800 space-y-1.5">
+                <strong className="text-white">California Consumer Privacy Act (CCPA / CPRA):</strong>
+                <p className="text-slate-300">
+                  California residents have the right to know what personal information is collected, request its deletion, 
+                  and opt out of any "sale" or "sharing" of personal data. <strong>ProfiVault does not sell or share your personal information.</strong>{' '}
+                  To exercise your California privacy rights regarding contact inquiries, email{' '}
+                  <span className="text-blue-400 font-mono">{CONFIG.PRIVACY_EMAIL}</span>.
+                </p>
+              </div>
+
+              <div className="p-4 rounded-xl bg-slate-950/80 border border-slate-800 space-y-1.5">
+                <strong className="text-white">European Union & United Kingdom Residents (GDPR / UK GDPR):</strong>
+                <p className="text-slate-300">
+                  Residents of the EEA and UK have the right to access, rectify, erase, restrict, and object to the processing of their personal data, 
+                  as well as the right to data portability. You may exercise any of these rights by emailing our privacy team.
+                </p>
+              </div>
+            </div>
+          </section>
+
+          {/* Section 15: Policy Changes & Updates */}
+          <section id="updates" className="scroll-mt-24 p-6 sm:p-8 rounded-2xl bg-slate-900/60 border border-slate-800 space-y-4">
+            <div className="flex items-center gap-2 text-blue-400 text-xs font-bold uppercase tracking-wider">
+              <span className="w-2 h-2 rounded-full bg-blue-400"></span>
+              <span>Section 15</span>
+            </div>
+            <h2 className="text-xl sm:text-2xl font-bold text-white">15. Changes & Policy Updates</h2>
+
+            <p>
+              We may periodically update this Privacy Policy to reflect enhancements to our Website or Extension, changes in third-party integrations, 
+              or newly enacted statutory requirements. When updates occur, we will revise the "Last Updated" and "Effective Date" at the top of this document.
+            </p>
+            <p>
+              The current, official version of this policy is perpetually accessible at:{' '}
+              <a href={`${CONFIG.SITE_URL}/privacy-policy`} className="text-blue-400 hover:underline font-mono text-xs">
+                {CONFIG.SITE_URL}/privacy-policy
+              </a>
+            </p>
+          </section>
+
+          {/* Section 16: Contact Information */}
+          <section id="contact" className="scroll-mt-24 p-6 sm:p-8 rounded-3xl bg-gradient-to-br from-blue-950/40 via-slate-900/90 to-slate-950 border border-blue-800/60 space-y-6">
+            <div className="flex items-center gap-2.5">
+              <div className="w-9 h-9 rounded-xl bg-blue-600/20 text-blue-400 flex items-center justify-center border border-blue-500/30">
+                <Mail className="w-5 h-5" />
+              </div>
+              <div>
+                <div className="text-xs font-bold uppercase tracking-wider text-blue-400">Section 16</div>
+                <h2 className="text-xl sm:text-2xl font-bold text-white">16. Contact Information & Privacy Inquiries</h2>
+              </div>
+            </div>
+
+            <p className="text-sm text-slate-300">
+              If you have any questions, concerns, compliance inquiries, or requests regarding this Privacy Policy 
+              or your personal data, please contact our team directly:
+            </p>
+
+            <div className="p-5 rounded-2xl bg-slate-950 border border-slate-800 space-y-3 font-mono text-xs text-slate-300">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1 border-b border-slate-800/80 pb-2.5">
+                <span className="text-slate-500 font-sans font-semibold">Product Name:</span>
+                <span className="text-white font-sans">{CONFIG.PRODUCT_NAME} – Fast Profile Link Copier</span>
+              </div>
+
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1 border-b border-slate-800/80 pb-2.5">
+                <span className="text-slate-500 font-sans font-semibold">Official Website:</span>
+                <a href={CONFIG.SITE_URL} target="_blank" rel="noopener noreferrer" className="text-blue-400 hover:underline">
+                  {CONFIG.SITE_URL}
+                </a>
+              </div>
+
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1 border-b border-slate-800/80 pb-2.5">
+                <span className="text-slate-500 font-sans font-semibold">Privacy & Legal Inquiries:</span>
+                <div className="flex items-center gap-2">
+                  <a href={`mailto:${CONFIG.PRIVACY_EMAIL}`} className="text-blue-400 hover:underline">
+                    {CONFIG.PRIVACY_EMAIL}
+                  </a>
+                  <button
+                    onClick={() => handleCopyEmail(CONFIG.PRIVACY_EMAIL)}
+                    className="p-1 rounded bg-slate-900 hover:bg-slate-800 text-slate-400 hover:text-white transition cursor-pointer"
+                    title="Copy Privacy Email"
+                  >
+                    {copiedEmail ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5" />}
+                  </button>
+                </div>
+              </div>
+
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1 border-b border-slate-800/80 pb-2.5">
+                <span className="text-slate-500 font-sans font-semibold">General Support:</span>
+                <a href={`mailto:${CONFIG.SUPPORT_EMAIL}`} className="text-blue-400 hover:underline">
+                  {CONFIG.SUPPORT_EMAIL}
+                </a>
+              </div>
+
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1">
+                <span className="text-slate-500 font-sans font-semibold">Dedicated Privacy URL:</span>
+                <a href={`${CONFIG.SITE_URL}/privacy-policy`} className="text-blue-400 hover:underline">
+                  {CONFIG.SITE_URL}/privacy-policy
+                </a>
+              </div>
+            </div>
+
+            <div className="pt-2 flex flex-wrap items-center gap-4">
+              <button
+                onClick={() => onNavigate('/support')}
+                className="px-5 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-semibold text-xs sm:text-sm transition cursor-pointer shadow-lg shadow-blue-600/25 flex items-center gap-2"
+              >
+                <HelpCircle className="w-4 h-4" />
+                <span>Visit Support Hub</span>
+              </button>
+
+              <button
+                onClick={() => onNavigate('/')}
+                className="px-5 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-slate-200 font-semibold text-xs sm:text-sm transition cursor-pointer border border-slate-800"
+              >
+                Return to Home
+              </button>
+            </div>
+          </section>
+
         </div>
 
       </div>

@@ -114,8 +114,8 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
             <ul className="space-y-2 text-sm">
               <li>
                 <button
-                  onClick={() => handleLinkClick('/privacy')}
-                  className="hover:text-blue-400 transition"
+                  onClick={() => handleLinkClick('/privacy-policy')}
+                  className="hover:text-blue-400 transition cursor-pointer"
                 >
                   Privacy Policy
                 </button>

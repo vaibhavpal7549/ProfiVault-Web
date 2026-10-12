@@ -92,12 +92,12 @@ export const Navbar: React.FC<NavbarProps> = ({ currentPath, onNavigate }) => {
               What It Doesn't Do
             </button>
             <button
-              onClick={() => handleNavClick('/privacy')}
+              onClick={() => handleNavClick('/privacy-policy')}
               className={`hover:text-blue-400 transition cursor-pointer ${
-                currentPath === '/privacy' ? 'text-blue-400 font-semibold' : ''
+                currentPath === '/privacy' || currentPath === '/privacy-policy' ? 'text-blue-400 font-semibold' : ''
               }`}
             >
-              Privacy
+              Privacy Policy
             </button>
             <button
               onClick={() => handleNavClick('/', 'faq')}
@@ -182,8 +182,10 @@ export const Navbar: React.FC<NavbarProps> = ({ currentPath, onNavigate }) => {
               <ChevronRight className="w-4 h-4 text-slate-500" />
             </button>
             <button
-              onClick={() => handleNavClick('/privacy')}
-              className="w-full text-left px-3 py-2.5 rounded-lg hover:bg-slate-900 hover:text-blue-400 flex items-center justify-between"
+              onClick={() => handleNavClick('/privacy-policy')}
+              className={`w-full text-left px-3 py-2.5 rounded-lg hover:bg-slate-900 hover:text-blue-400 flex items-center justify-between ${
+                currentPath === '/privacy' || currentPath === '/privacy-policy' ? 'text-blue-400 bg-slate-900/60 font-semibold' : ''
+              }`}
             >
               <span>Privacy Policy</span>
               <ChevronRight className="w-4 h-4 text-slate-500" />

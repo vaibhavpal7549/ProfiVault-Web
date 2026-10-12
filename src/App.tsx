@@ -37,8 +37,10 @@ export function App() {
   const renderPage = () => {
     switch (currentPath) {
       case '/privacy':
+      case '/privacy-policy':
         return <PrivacyPage onNavigate={handleNavigate} />;
       case '/terms':
+      case '/terms-of-service':
         return <TermsPage onNavigate={handleNavigate} />;
       case '/support':
         return <SupportPage onNavigate={handleNavigate} />;
